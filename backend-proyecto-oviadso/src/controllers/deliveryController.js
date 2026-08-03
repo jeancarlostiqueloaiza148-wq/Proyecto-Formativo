@@ -1,4 +1,6 @@
 const {
+    getAllDeliveries: getAllDeliveriesService,
+    getDeliveryById: getDeliveryByIdService,
     createDeliveryService,
     updateDelivery: updateDeliveryService,
     deleteDelivery: deleteDeliveryService
@@ -6,35 +8,68 @@ const {
 
 const { Response } = require("../functions/response");
 
-
-
-const getAllDeliveries = (req, res) => {
+// Obtener todos los partos
+const getAllDeliveries = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
+    try {
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los partos"
-    });
+        const deliveries = await getAllDeliveriesService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todos los partos",
+            data: deliveries
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener los partos",
+            error: error.message
+        });
+
+    }
 
 };
 
-
-
-const getDeliveryById = (req, res) => {
+// Obtener parto por id
+const getDeliveryById = async (req, res) => {
 
     const { id } = req.params;
 
+    try {
 
-    res.json({
-        mensaje: `Obteniendo el parto con ID: ${id}`
-    });
+        const delivery = await getDeliveryByIdService(id);
+
+        if (!delivery) {
+            return res.status(404).json({
+                mensaje: "Parto no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el parto con ID: ${id}`,
+            data: delivery
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el parto",
+            error: error.message
+        });
+
+    }
 
 };
 
-
-
+// Crear parto
 const createDelivery = async (req, res) => {
 
     const {
@@ -135,7 +170,7 @@ const createDelivery = async (req, res) => {
 };
 
 
-
+// Actualizar parto
 const updateDelivery = async (req, res) => {
     try {
 
@@ -184,7 +219,7 @@ const updateDelivery = async (req, res) => {
     }
 };
 
-
+// Inactivar parto
 const deleteDelivery = async (req, res) => {
     try {
         const { id } = req.params;

@@ -1,4 +1,6 @@
 const {
+    getAllHealths: getAllHealthsService,
+    getHealthById: getHealthByIdService,
     createHealthService,
     updateHealth: updateHealthService,
     deleteHealth: deleteHealthService
@@ -6,25 +8,68 @@ const {
 
 const { Response } = require("../functions/response");
 
-const getAllHealths = (req, res) => {
+// Obtener todas las sanidades
+const getAllHealths = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los registros de salud"
-    });
+    try {
+
+        const healths = await getAllHealthsService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todos los registros de sanidad",
+            data: healths
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener los registros de sanidad",
+            error: error.message
+        });
+
+    }
+
 };
 
-const getHealthById = (req, res) => {
+// Obtener sanidad por id
+const getHealthById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el registro de salud con ID: ${id}`
-    });
+    try {
+
+        const health = await getHealthByIdService(id);
+
+        if (!health) {
+            return res.status(404).json({
+                mensaje: "Registro de sanidad no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el registro de sanidad con ID: ${id}`,
+            data: health
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el registro de sanidad",
+            error: error.message
+        });
+
+    }
+
 };
 
+// Crear sanidad
 const createHealth = async (req, res) => {
 
     const {
@@ -103,6 +148,7 @@ const createHealth = async (req, res) => {
     }
 };
 
+// Actualizar sanidad
 const updateHealth = async (req, res) => {
 
     try {
@@ -152,6 +198,7 @@ const updateHealth = async (req, res) => {
     }
 };
 
+// Inactivar sanidad
 const deleteHealth = async (req, res) => {
 
     try {

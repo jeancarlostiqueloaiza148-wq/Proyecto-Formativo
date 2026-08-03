@@ -1,4 +1,6 @@
 const {
+    getAllBirths: getAllBirthsService,
+    getBirthById: getBirthByIdService,
     createBirthService,
     updateBirth: updateBirthService,
     deleteBirth: deleteBirthService
@@ -6,25 +8,68 @@ const {
 
 const { Response } = require("../functions/response");
 
-const getAllBirths = (req, res) => {
+// Obtener todos los nacimientos
+const getAllBirths = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los nacimientos"
-    });
+    try {
+
+        const births = await getAllBirthsService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todos los nacimientos",
+            data: births
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener los nacimientos",
+            error: error.message
+        });
+
+    }
+
 };
 
-const getBirthById = (req, res) => {
+// Obtener nacimiento por id
+const getBirthById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el nacimiento con ID: ${id}`
-    });
+    try {
+
+        const birth = await getBirthByIdService(id);
+
+        if (!birth) {
+            return res.status(404).json({
+                mensaje: "Nacimiento no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el nacimiento con ID: ${id}`,
+            data: birth
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el nacimiento",
+            error: error.message
+        });
+
+    }
+
 };
 
+// Crear nacimiento
 const createBirth = async (req, res) => {
 
     const {
@@ -101,6 +146,7 @@ const createBirth = async (req, res) => {
     }
 };
 
+// Actualizar nacimiento
 const updateBirth = async (req, res) => {
 
     try {
@@ -148,6 +194,7 @@ const updateBirth = async (req, res) => {
     }
 };
 
+// Inactivar nacimiento
 const deleteBirth = async (req, res) => {
 
     try {

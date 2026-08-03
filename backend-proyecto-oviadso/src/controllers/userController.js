@@ -1,30 +1,81 @@
+const fs = require("fs");
+const path = require("path");
+
+const html = fs.readFileSync(
+    path.join(__dirname, "../../public/html/confirmEmail.html"),"utf8");
+
 const {
+    AllUsers: getAllUsersService,
+    getUserById: getUserByIdService,
     createUserService,
     updateUser: updateUserService,
     deleteUser: deleteUserService
 } = require("../services/userService");
 
 const { Response } = require("../functions/response");
+const { sendEmail } = require("../services/emailService");
 
-const getAllUsers = (req, res) => {
+// Obtener todos los usuarios
+const getAllUsers = async (req, res) => {
 
-    const body = req.body;
-    console.log("Body recibido:", body);
+     const body = req.body;
+     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los usuarios"
-    });
+     try {
+
+         const users = await getAllUsersService();
+
+         res.status(200).json({
+             mensaje: "Obteniendo todos los usuarios",
+             data: users
+         });
+
+     } catch (error) {
+
+         console.error(error);
+
+         res.status(500).json({
+             mensaje: "Error al obtener los usuarios",
+             error: error.message
+         });
+
+    }
+    //res.json({"message":"Que paso Adso"});
 };
 
-const getUserById = (req, res) => {
+// Obtener usuario por id
+const getUserById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el usuario con ID: ${id}`
-    });
+    try {
+
+        const user = await getUserByIdService(id);
+
+        if (!user) {
+            return res.status(404).json({
+                mensaje: "Usuario no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el usuario con ID: ${id}`,
+            data: user
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el usuario",
+            error: error.message
+        });
+
+    }
 };
 
+// Crear usuario
 const createUser = async (req, res) => {
 
     const {
@@ -88,30 +139,62 @@ const createUser = async (req, res) => {
 
     try {
 
-        const user = await createUserService(data);
+    const user = await createUserService(data);
 
-        const response = new Response(
-            true,
-            "Usuario creado exitosamente",
-            user
+    // Inicio de envío de correo de confirmación
+    const templatePath = path.join(process.cwd(),"public","templates", "confirmEmail.json");
+
+
+    // Leer el archivo de template
+    const confirmEmailTemplate = fs.readFileSync(templatePath);
+
+
+    //Leer y sacar propiedades del template
+    const dataTemplate = JSON.parse(confirmEmailTemplate);
+
+    // Reemplazar los valores en el template con los datos del usuario
+    dataTemplate.params["@name"] = user.username;
+    dataTemplate.params["@link"] = "http://localhost:3000/confirm-email";
+    dataTemplate.params["@nameBtn"] = "Confirmar correo";
+    
+    // Leer el archivo HTML del template
+    const templateHtml = fs.readFileSync(dataTemplate.html);
+
+    let html = templateHtml.toString();
+
+    for (const key in dataTemplate.params) {
+        html = html.replace(
+            key,
+            dataTemplate.params[key]
         );
-
-        return res.status(201).json(response.json);
-
-    } catch (error) {
-
-        console.error("Error al crear el usuario:", error);
-
-        const response = new Response(
-            false,
-            "Error interno al crear el usuario",
-            error.message
-        );
-
-        return res.status(500).json(response.json);
     }
+
+    await sendEmail(user.email,dataTemplate.subject,"",html);
+
+    const response = new Response(
+        true,
+        "Usuario creado exitosamente",
+        user
+    );
+
+    return res.status(201).json(response.json);
+
+} catch (error) {
+
+    console.error("Error al crear el usuario:", error);
+
+    const response = new Response(
+        false,
+        "Error interno al crear el usuario",
+        error.message
+    );
+
+    return res.status(500).json(response.json);
+}
+
 };
 
+// Actualizar usuario
 const updateUser = async (req, res) => {
 
     try {
@@ -161,6 +244,7 @@ const updateUser = async (req, res) => {
     }
 };
 
+// Inactivar usuario
 const deleteUser = async (req, res) => {
 
     try {

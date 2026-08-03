@@ -1,0 +1,9 @@
+{
+    "subject": "Confirmación de correo",
+    "html": "public/html/confirmEmail.html",
+    "params": {
+        "@name": "Nombre del usuario",
+        "@link": "Enlace de confirmación",
+        "@nameBtn": "Texto del botón"
+    }
+}

@@ -1,4 +1,6 @@
 const {
+    getAllResponsibles: getAllResponsiblesService,
+    getResponsibleById: getResponsibleByIdService,
     createResponsibleService,
     updateResponsible: updateResponsibleService,
     deleteResponsible: deleteResponsibleService
@@ -6,27 +8,66 @@ const {
 
 const { Response } = require("../functions/response");
 
-const getAllResponsibles = (req, res) => {
+// Obtener todos los responsables
+const getAllResponsibles = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los responsables"
-    });
+    try {
 
+        const responsibles = await getAllResponsiblesService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todos los responsables",
+            data: responsibles
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener los responsables",
+            error: error.message
+        });
+
+    }
 };
 
-const getResponsibleById = (req, res) => {
+// Obtener responsable con id
+const getResponsibleById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el responsable con ID: ${id}`
-    });
+    try {
 
+        const responsible = await getResponsibleByIdService(id);
+
+        if (!responsible) {
+            return res.status(404).json({
+                mensaje: "Responsable no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el responsable con ID: ${id}`,
+            data: responsible
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el responsable",
+            error: error.message
+        });
+
+    }
 };
 
+// Crear responsable
 const createResponsible = async (req, res) => {
 
     const {
@@ -101,6 +142,7 @@ const createResponsible = async (req, res) => {
 
 };
 
+// Actualizar responsalbe
 const updateResponsible = async (req, res) => {
     try {
 
@@ -146,6 +188,7 @@ const updateResponsible = async (req, res) => {
     }
 };
 
+// Inactivar responsable
 const deleteResponsible = async (req, res) => {
     try {
 

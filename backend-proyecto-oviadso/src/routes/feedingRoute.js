@@ -9,19 +9,77 @@ const {
     deleteFeeding
 } = require("../controllers/feedingController.js");
 
-// Obtener todas las alimentaciones
+/**
+ * @swagger
+ * /api/feeding/feedings:
+ *   get:
+ *     summary: Obtener todas las alimentaciones
+ *     responses:
+ *       200:
+ *         description: Lista de alimentaciones
+ */
 router.get("/feedings", getAllFeedings);
 
-// Obtener alimentación por ID
+/**
+ * @swagger
+ * /api/feeding/feedings/{id}:
+ *   get:
+ *     summary: Obtener alimentación por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Alimentación encontrada
+ */
 router.get("/feedings/:id", getFeedingById);
 
-// Crear alimentación
+/**
+ * @swagger
+ * /api/feeding/feedings:
+ *   post:
+ *     summary: Crear alimentación
+ *     responses:
+ *       201:
+ *         description: Alimentación creada
+ */
 router.post("/feedings", createFeeding);
 
-// Actualizar alimentación
+/**
+ * @swagger
+ * /api/feeding/feedings/{id}:
+ *   put:
+ *     summary: Actualizar alimentación
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Alimentación actualizada
+ */
 router.put("/feedings/:id", updateFeeding);
 
-// Eliminar alimentación
+/**
+ * @swagger
+ * /api/feeding/feedings/{id}:
+ *   delete:
+ *     summary: Eliminar alimentación
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Alimentación eliminada
+ */
 router.delete("/feedings/:id", deleteFeeding);
 
 module.exports = router;

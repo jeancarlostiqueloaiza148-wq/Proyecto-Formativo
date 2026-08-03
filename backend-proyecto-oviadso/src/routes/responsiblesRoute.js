@@ -9,19 +9,77 @@ const {
     deleteResponsible
 } = require("../controllers/responsiblesController.js");
 
-// Obtener todos
+/**
+ * @swagger
+ * /api/responsibles/responsibles:
+ *   get:
+ *     summary: Obtener todos los responsables
+ *     responses:
+ *       200:
+ *         description: Lista de responsables
+ */
 router.get("/responsibles", getAllResponsibles);
 
-// Obtener por ID
+/**
+ * @swagger
+ * /api/responsibles/responsibles/{id}:
+ *   get:
+ *     summary: Obtener responsable por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Responsable encontrado
+ */
 router.get("/responsibles/:id", getResponsibleById);
 
-// Crear
+/**
+ * @swagger
+ * /api/responsibles/responsibles:
+ *   post:
+ *     summary: Crear responsable
+ *     responses:
+ *       201:
+ *         description: Responsable creado
+ */
 router.post("/responsibles", createResponsible);
 
-// Actualizar
+/**
+ * @swagger
+ * /api/responsibles/responsibles/{id}:
+ *   put:
+ *     summary: Actualizar responsable
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Responsable actualizado
+ */
 router.put("/responsibles/:id", updateResponsible);
 
-// Eliminar
+/**
+ * @swagger
+ * /api/responsibles/responsibles/{id}:
+ *   delete:
+ *     summary: Eliminar responsable
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Responsable eliminado
+ */
 router.delete("/responsibles/:id", deleteResponsible);
 
 module.exports = router;

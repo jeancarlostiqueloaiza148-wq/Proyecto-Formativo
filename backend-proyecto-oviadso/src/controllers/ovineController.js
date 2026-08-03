@@ -1,4 +1,6 @@
 const {
+    getAllOvines: getAllOvinesService,
+    getOvineById: getOvineByIdService,
     createOvineService,
     updateOvine: updateOvineService,
     deleteOvine: deleteOvineService
@@ -7,24 +9,64 @@ const {
 const { Response } = require("../functions/response");
 
 // Obtener todos los ovinos
-const getAllOvines = (req, res) => {
+const getAllOvines = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los ovinos"
-    });
+    try {
+
+        const ovines = await getAllOvinesService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todos los ovinos",
+            data: ovines
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener los ovinos",
+            error: error.message
+        });
+
+    }
+
 };
 
 // Obtener ovino por ID
-const getOvineById = (req, res) => {
+const getOvineById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el ovino con ID: ${id}`
-    });
+    try {
+
+        const ovine = await getOvineByIdService(id);
+
+        if (!ovine) {
+            return res.status(404).json({
+                mensaje: "Ovino no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el ovino con ID: ${id}`,
+            data: ovine
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el ovino",
+            error: error.message
+        });
+
+    }
+
 };
 
 // Crear ovino

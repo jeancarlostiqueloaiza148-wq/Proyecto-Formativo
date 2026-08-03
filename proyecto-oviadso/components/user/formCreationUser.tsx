@@ -1,17 +1,12 @@
 function FormCreationUser() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-
+    <div className="flex w-full justify-center">
       <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-8 border-t-4 border-orange-500">
-
         <h2 className="text-2xl font-bold text-orange-500 mb-6 text-center">
           Crear Usuario
         </h2>
 
-
         <form className="space-y-5">
-
-
           <div>
             <label
               htmlFor="username"
@@ -27,7 +22,6 @@ function FormCreationUser() {
               className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
-
 
           <div>
             <label
@@ -45,7 +39,6 @@ function FormCreationUser() {
             />
           </div>
 
-
           <div>
             <label
               htmlFor="password"
@@ -62,7 +55,7 @@ function FormCreationUser() {
             />
           </div>
 
-
+          {/* ROL */}
           <div>
             <label
               htmlFor="role"
@@ -71,15 +64,27 @@ function FormCreationUser() {
               Rol:
             </label>
 
-            <input
-              type="text"
+            <select
               id="role"
               name="role"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione un rol 
+              </option>
+
+              <option value="Administrador">Administrador</option>
+
+              <option value="Veterinario">Veterinario</option>
+
+              <option value="Aprendiz">Aprendiz</option>
+
+              <option value="Instructor">Instructor</option>
+            </select>
           </div>
 
-
+          {/* ESTADO */}
           <div>
             <label
               htmlFor="status"
@@ -88,14 +93,21 @@ function FormCreationUser() {
               Estado:
             </label>
 
-            <input
-              type="text"
+            <select
               id="status"
               name="status"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione un estado
+              </option>
 
+              <option value="Activo">Activo</option>
+
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
 
           <button
             type="submit"
@@ -103,12 +115,8 @@ function FormCreationUser() {
           >
             Crear Usuario
           </button>
-
-
         </form>
-
       </div>
-
     </div>
   );
 }

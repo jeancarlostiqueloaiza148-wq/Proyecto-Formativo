@@ -1,4 +1,6 @@
 const {
+    getAllMortalities: getAllMortalitiesService,
+    getMortalityById: getMortalityByIdService,
     createMortalityService,
     updateMortality: updateMortalityService,
     deleteMortality: deleteMortalityService
@@ -6,25 +8,68 @@ const {
 
 const { Response } = require("../functions/response");
 
-const getAllMortalities = (req, res) => {
+// Obtener todas las mortalidades
+const getAllMortalities = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todas las mortalidades"
-    });
+    try {
+
+        const mortalities = await getAllMortalitiesService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todas las mortalidades",
+            data: mortalities
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener las mortalidades",
+            error: error.message
+        });
+
+    }
+
 };
 
-const getMortalityById = (req, res) => {
+// Obtener mortalidad por id
+const getMortalityById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo la mortalidad con ID: ${id}`
-    });
+    try {
+
+        const mortality = await getMortalityByIdService(id);
+
+        if (!mortality) {
+            return res.status(404).json({
+                mensaje: "Mortalidad no encontrada"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo la mortalidad con ID: ${id}`,
+            data: mortality
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener la mortalidad",
+            error: error.message
+        });
+
+    }
+
 };
 
+// Crear mortalidad
 const createMortality = async (req, res) => {
 
     const {
@@ -95,6 +140,7 @@ const createMortality = async (req, res) => {
     }
 };
 
+// Actualizar mortalidad
 const updateMortality = async (req, res) => {
 
     try {
@@ -138,6 +184,7 @@ const updateMortality = async (req, res) => {
     }
 };
 
+// Inactivar mortalidad
 const deleteMortality = async (req, res) => {
 
     try {

@@ -1,4 +1,6 @@
 const {
+    getAllMountings: getAllMountingsService,
+    getMountingById: getMountingByIdService,
     createMountingService,
     updateMounting: updateMountingService,
     deleteMounting: deleteMountingService
@@ -7,24 +9,63 @@ const {
 const { Response } = require("../functions/response");
 
 // Obtener todas las montas
-const getAllMountings = (req, res) => {
+const getAllMountings = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todas las montas"
-    });
+    try {
+
+        const mountings = await getAllMountingsService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todas las montas",
+            data: mountings
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener las montas",
+            error: error.message
+        });
+
+    }
 };
 
-// Obtener monta por ID
-const getMountingById = (req, res) => {
+// Obtener monta por id
+const getMountingById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo la monta con ID: ${id}`
-    });
+    try {
+
+        const mounting = await getMountingByIdService(id);
+
+        if (!mounting) {
+            return res.status(404).json({
+                mensaje: "Monta no encontrada"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo la monta con ID: ${id}`,
+            data: mounting
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener la monta",
+            error: error.message
+        });
+
+    }
+
 };
 
 // Crear monta

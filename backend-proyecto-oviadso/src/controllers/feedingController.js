@@ -1,4 +1,6 @@
 const {
+    getAllFeedings: getAllFeedingsService,
+    getFeedingById: getFeedingByIdService,
     createFeedingService,
     updateFeeding: updateFeedingService,
     deleteFeeding: deleteFeedingService
@@ -6,25 +8,69 @@ const {
 
 const { Response } = require("../functions/response");
 
-const getAllFeedings = (req, res) => {
+// Obtener todas las alimentaciones
+const getAllFeedings = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los registros de alimentación"
-    });
+    try {
+
+        const feedings = await getAllFeedingsService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todas las alimentaciones",
+            data: feedings
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener las alimentaciones",
+            error: error.message
+        });
+
+    }
+
 };
 
-const getFeedingById = (req, res) => {
+// Obtener alimentacion por id
+const getFeedingById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el registro de alimentación con ID: ${id}`
-    });
+    try {
+
+        const feeding = await getFeedingByIdService(id);
+
+        if (!feeding) {
+            return res.status(404).json({
+                mensaje: "Alimentación no encontrada"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo la alimentación con ID: ${id}`,
+            data: feeding
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener la alimentación",
+            error: error.message
+        });
+
+    }
+
 };
 
+
+// Crear alimentacion
 const createFeeding = async (req, res) => {
 
     const {
@@ -97,6 +143,8 @@ const createFeeding = async (req, res) => {
     }
 };
 
+
+// Actualizar alimentacion
 const updateFeeding = async (req, res) => {
 
     try {
@@ -142,6 +190,8 @@ const updateFeeding = async (req, res) => {
     }
 };
 
+
+// Inactivar alimentacion
 const deleteFeeding = async (req, res) => {
 
     try {

@@ -9,19 +9,77 @@ const {
     deleteBirth
 } = require("../controllers/birthsController.js");
 
-// Obtener todos los nacimientos
+/**
+ * @swagger
+ * /api/birth/births:
+ *   get:
+ *     summary: Obtener todos los nacimientos
+ *     responses:
+ *       200:
+ *         description: Lista de nacimientos
+ */
 router.get("/births", getAllBirths);
 
-// Obtener nacimiento por ID
+/**
+ * @swagger
+ * /api/birth/births/{id}:
+ *   get:
+ *     summary: Obtener nacimiento por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Nacimiento encontrado
+ */
 router.get("/births/:id", getBirthById);
 
-// Crear nacimiento
+/**
+ * @swagger
+ * /api/birth/births:
+ *   post:
+ *     summary: Crear nacimiento
+ *     responses:
+ *       201:
+ *         description: Nacimiento creado
+ */
 router.post("/births", createBirth);
 
-// Actualizar nacimiento
+/**
+ * @swagger
+ * /api/birth/births/{id}:
+ *   put:
+ *     summary: Actualizar nacimiento
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Nacimiento actualizado
+ */
 router.put("/births/:id", updateBirth);
 
-// Eliminar nacimiento
+/**
+ * @swagger
+ * /api/birth/births/{id}:
+ *   delete:
+ *     summary: Eliminar nacimiento
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Nacimiento eliminado
+ */
 router.delete("/births/:id", deleteBirth);
 
 module.exports = router;

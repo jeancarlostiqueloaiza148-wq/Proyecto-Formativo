@@ -1,7 +1,7 @@
 const userModel = require("../models/userModel");
 
 // Obtener todos los usuarios
-const getAllUsers = async () => {
+const AllUsers = async () => {
     try {
         const users = await userModel.findAll();
         return users;
@@ -62,7 +62,7 @@ const deleteUser = async (id) => {
 };
 
 module.exports = {
-    getAllUsers,
+    AllUsers,
     getUserById,
     createUserService,
     updateUser,

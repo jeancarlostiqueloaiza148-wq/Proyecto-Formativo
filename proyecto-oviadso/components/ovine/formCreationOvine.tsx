@@ -1,17 +1,13 @@
 function FormCreationOvine() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-
       <div className="w-full max-w-md bg-white shadow-lg rounded-xl p-8 border-t-4 border-orange-500">
-
         <h2 className="text-2xl font-bold text-orange-500 mb-6 text-center">
           Crear Ovino
         </h2>
 
-
         <form className="space-y-5">
-
-
+          {/* ETIQUETA */}
           <div>
             <label
               htmlFor="tag"
@@ -20,15 +16,23 @@ function FormCreationOvine() {
               Etiqueta:
             </label>
 
-            <input
-              type="text"
+            <select
               id="tag"
               name="tag"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione una etiqueta
+              </option>
+
+              <option value="001">001</option>
+              <option value="002">002</option>
+              <option value="003">003</option>
+            </select>
           </div>
 
-
+          {/* RAZA */}
           <div>
             <label
               htmlFor="breed"
@@ -37,15 +41,23 @@ function FormCreationOvine() {
               Raza:
             </label>
 
-            <input
-              type="text"
+            <select
               id="breed"
               name="breed"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione una raza
+              </option>
+
+              <option value="Dorper">Pelibuey</option>
+              <option value="Santa Inés">Santa Inés</option>
+              <option value="Katahdin">Katahdin</option>
+            </select>
           </div>
 
-
+          {/* SEXO */}
           <div>
             <label
               htmlFor="sex"
@@ -54,15 +66,22 @@ function FormCreationOvine() {
               Sexo:
             </label>
 
-            <input
-              type="text"
+            <select
               id="sex"
               name="sex"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione un sexo
+              </option>
+
+              <option value="Macho">Macho</option>
+              <option value="Hembra">Hembra</option>
+            </select>
           </div>
 
-
+          {/* FECHA DE NACIMIENTO */}
           <div>
             <label
               htmlFor="birth_date"
@@ -79,7 +98,7 @@ function FormCreationOvine() {
             />
           </div>
 
-
+          {/* PESO */}
           <div>
             <label
               htmlFor="weight"
@@ -88,15 +107,24 @@ function FormCreationOvine() {
               Peso:
             </label>
 
-            <input
-              type="number"
+            <select
               id="weight"
               name="weight"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione un peso
+              </option>
+
+              <option value="10">10 kg</option>
+              <option value="20">20 kg</option>
+              <option value="30">30 kg</option>
+              <option value="40">40 kg</option>
+            </select>
           </div>
 
-
+          {/* ESTADO */}
           <div>
             <label
               htmlFor="status"
@@ -105,14 +133,20 @@ function FormCreationOvine() {
               Estado:
             </label>
 
-            <input
-              type="text"
+            <select
               id="status"
               name="status"
-              className="w-full rounded-lg border border-orange-300 p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
+              defaultValue=""
+              className="w-full rounded-lg border border-orange-300 bg-white p-2 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            >
+              <option value="" disabled>
+                Seleccione un estado
+              </option>
 
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
+          </div>
 
           <button
             type="submit"
@@ -120,12 +154,8 @@ function FormCreationOvine() {
           >
             Crear Ovino
           </button>
-
-
         </form>
-
       </div>
-
     </div>
   );
 }

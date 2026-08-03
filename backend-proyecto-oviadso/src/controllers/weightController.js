@@ -1,4 +1,6 @@
 const {
+    getAllWeights: getAllWeightsService,
+    getWeightById: getWeightByIdService,
     createWeightService,
     updateWeight: updateWeightService,
     deleteWeight: deleteWeightService
@@ -7,24 +9,62 @@ const {
 const { Response } = require("../functions/response");
 
 // Obtener todos los pesos
-const getAllWeights = (req, res) => {
+const getAllWeights = async (req, res) => {
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    res.status(200).json({
-        mensaje: "Obteniendo todos los pesos"
-    });
+    try {
+
+        const weights = await getAllWeightsService();
+
+        res.status(200).json({
+            mensaje: "Obteniendo todos los pesos",
+            data: weights
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener los pesos",
+            error: error.message
+        });
+
+    }
 };
 
-// Obtener peso por ID
-const getWeightById = (req, res) => {
+// Obtener peso por id
+const getWeightById = async (req, res) => {
 
     const { id } = req.params;
 
-    res.json({
-        mensaje: `Obteniendo el peso con ID: ${id}`
-    });
+    try {
+
+        const weight = await getWeightByIdService(id);
+
+        if (!weight) {
+            return res.status(404).json({
+                mensaje: "Peso no encontrado"
+            });
+        }
+
+        res.status(200).json({
+            mensaje: `Obteniendo el peso con ID: ${id}`,
+            data: weight
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            mensaje: "Error al obtener el peso",
+            error: error.message
+        });
+
+    }
 };
 
 // Crear peso

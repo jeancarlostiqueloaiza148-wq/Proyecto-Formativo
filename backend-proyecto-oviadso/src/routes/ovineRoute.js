@@ -9,19 +9,77 @@ const {
     deleteOvine
 } = require("../controllers/ovineController.js");
 
-// Obtener todos los ovinos
+/**
+ * @swagger
+ * /api/ovine/ovines:
+ *   get:
+ *     summary: Obtener todos los ovinos
+ *     responses:
+ *       200:
+ *         description: Lista de ovinos
+ */
 router.get("/ovines", getAllOvines);
 
-// Obtener ovinos por ID
+/**
+ * @swagger
+ * /api/ovine/ovines/{id}:
+ *   get:
+ *     summary: Obtener ovino por ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Ovino encontrado
+ */
 router.get("/ovines/:id", getOvineById);
 
-// Crear ovino
+/**
+ * @swagger
+ * /api/ovine/ovines:
+ *   post:
+ *     summary: Crear ovino
+ *     responses:
+ *       201:
+ *         description: Ovino creado
+ */
 router.post("/ovines", createOvine);
 
-// Actualizar ovino
+/**
+ * @swagger
+ * /api/ovine/ovines/{id}:
+ *   put:
+ *     summary: Actualizar ovino
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Ovino actualizado
+ */
 router.put("/ovines/:id", updateOvine);
 
-// Eliminar ovino
+/**
+ * @swagger
+ * /api/ovine/ovines/{id}:
+ *   delete:
+ *     summary: Eliminar ovino
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Ovino eliminado
+ */
 router.delete("/ovines/:id", deleteOvine);
 
 module.exports = router;
