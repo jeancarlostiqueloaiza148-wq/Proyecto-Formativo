@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+
 const {
     getAllDeliveries,
     getDeliveryById,
@@ -18,7 +20,7 @@ const {
  *       200:
  *         description: Lista de partos
  */
-router.get("/deliveries", getAllDeliveries);
+router.get("/deliveries", ValidateToken, getAllDeliveries);
 
 /**
  * @swagger
@@ -35,7 +37,7 @@ router.get("/deliveries", getAllDeliveries);
  *       200:
  *         description: Parto encontrado
  */
-router.get("/deliveries/:id", getDeliveryById);
+router.get("/deliveries/:id", ValidateToken, getDeliveryById);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/deliveries/:id", getDeliveryById);
  *       201:
  *         description: Parto creado
  */
-router.post("/deliveries", createDelivery);
+router.post("/deliveries", ValidateToken, createDelivery);
 
 /**
  * @swagger
@@ -63,7 +65,7 @@ router.post("/deliveries", createDelivery);
  *       200:
  *         description: Parto actualizado
  */
-router.put("/deliveries/:id", updateDelivery);
+router.put("/deliveries/:id", ValidateToken, updateDelivery);
 
 /**
  * @swagger
@@ -80,6 +82,6 @@ router.put("/deliveries/:id", updateDelivery);
  *       200:
  *         description: Parto inactivado
  */
-router.delete("/deliveries/:id", deleteDelivery);
+router.delete("/deliveries/:id", ValidateToken, deleteDelivery);
 
 module.exports = router;

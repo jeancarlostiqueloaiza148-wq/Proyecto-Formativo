@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+const { upload } = require("../middlewares/uploadImage");
+
 const {
     getAllOvines,
     getOvineById,
@@ -18,7 +21,7 @@ const {
  *       200:
  *         description: Lista de ovinos
  */
-router.get("/ovines", getAllOvines);
+router.get("/ovines", ValidateToken, getAllOvines);
 
 /**
  * @swagger
@@ -35,7 +38,7 @@ router.get("/ovines", getAllOvines);
  *       200:
  *         description: Ovino encontrado
  */
-router.get("/ovines/:id", getOvineById);
+router.get("/ovines/:id", ValidateToken, getOvineById);
 
 /**
  * @swagger
@@ -46,7 +49,12 @@ router.get("/ovines/:id", getOvineById);
  *       201:
  *         description: Ovino creado
  */
-router.post("/ovines", createOvine);
+router.post(
+    "/ovines",
+    ValidateToken,
+    upload.single("image"),
+    createOvine
+);
 
 /**
  * @swagger
@@ -63,7 +71,7 @@ router.post("/ovines", createOvine);
  *       200:
  *         description: Ovino actualizado
  */
-router.put("/ovines/:id", updateOvine);
+router.put("/ovines/:id", ValidateToken, updateOvine);
 
 /**
  * @swagger
@@ -80,6 +88,6 @@ router.put("/ovines/:id", updateOvine);
  *       200:
  *         description: Ovino eliminado
  */
-router.delete("/ovines/:id", deleteOvine);
+router.delete("/ovines/:id", ValidateToken, deleteOvine);
 
 module.exports = router;

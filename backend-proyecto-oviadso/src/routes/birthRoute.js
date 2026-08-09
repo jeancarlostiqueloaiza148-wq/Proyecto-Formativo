@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+
 const {
     getAllBirths,
     getBirthById,
@@ -18,7 +20,7 @@ const {
  *       200:
  *         description: Lista de nacimientos
  */
-router.get("/births", getAllBirths);
+router.get("/births", ValidateToken, getAllBirths);
 
 /**
  * @swagger
@@ -35,7 +37,7 @@ router.get("/births", getAllBirths);
  *       200:
  *         description: Nacimiento encontrado
  */
-router.get("/births/:id", getBirthById);
+router.get("/births/:id", ValidateToken, getBirthById);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/births/:id", getBirthById);
  *       201:
  *         description: Nacimiento creado
  */
-router.post("/births", createBirth);
+router.post("/births", ValidateToken, createBirth);
 
 /**
  * @swagger
@@ -63,7 +65,7 @@ router.post("/births", createBirth);
  *       200:
  *         description: Nacimiento actualizado
  */
-router.put("/births/:id", updateBirth);
+router.put("/births/:id", ValidateToken, updateBirth);
 
 /**
  * @swagger
@@ -80,6 +82,6 @@ router.put("/births/:id", updateBirth);
  *       200:
  *         description: Nacimiento eliminado
  */
-router.delete("/births/:id", deleteBirth);
+router.delete("/births/:id", ValidateToken, deleteBirth);
 
 module.exports = router;

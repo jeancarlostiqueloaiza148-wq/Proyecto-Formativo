@@ -1,89 +1,80 @@
 const {
-    getAllResponsibles: getAllResponsiblesService,
-    getResponsibleById: getResponsibleByIdService,
-    createResponsibleService,
-    updateResponsible: updateResponsibleService,
-    deleteResponsible: deleteResponsibleService
+  getAllResponsibles: getAllResponsiblesService,
+  getResponsibleById: getResponsibleByIdService,
+  createResponsibleService,
+  updateResponsible: updateResponsibleService,
+  deleteResponsible: deleteResponsibleService,
 } = require("../services/responsiblesService");
 
 const { Response } = require("../functions/response");
 
 // Obtener todos los responsables
 const getAllResponsibles = async (req, res) => {
-
+  try {
     const body = req.body;
     console.log("Body recibido:", body);
 
-    try {
+    const responsibles = await getAllResponsiblesService();
 
-        const responsibles = await getAllResponsiblesService();
+    return res.status(200).json({
+      mensaje: "Obteniendo todos los responsables",
+      data: responsibles,
+    });
+  } catch (error) {
+    console.error("Error al obtener los responsables:", error);
 
-        res.status(200).json({
-            mensaje: "Obteniendo todos los responsables",
-            data: responsibles
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            mensaje: "Error al obtener los responsables",
-            error: error.message
-        });
-
-    }
+    return res.status(500).json({
+      mensaje: "Error al obtener los responsables",
+      error: error.message,
+    });
+  }
 };
 
-// Obtener responsable con id
+// Obtener responsable con ID
 const getResponsibleById = async (req, res) => {
-
+  try {
     const { id } = req.params;
 
-    try {
+    const responsible = await getResponsibleByIdService(id);
 
-        const responsible = await getResponsibleByIdService(id);
-
-        if (!responsible) {
-            return res.status(404).json({
-                mensaje: "Responsable no encontrado"
-            });
-        }
-
-        res.status(200).json({
-            mensaje: `Obteniendo el responsable con ID: ${id}`,
-            data: responsible
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            mensaje: "Error al obtener el responsable",
-            error: error.message
-        });
-
+    if (!responsible) {
+      return res.status(404).json({
+        mensaje: "Responsable no encontrado",
+      });
     }
+
+    return res.status(200).json({
+      mensaje: `Obteniendo el responsable con ID: ${id}`,
+      data: responsible,
+    });
+  } catch (error) {
+    console.error("Error al obtener el responsable:", error);
+
+    return res.status(500).json({
+      mensaje: "Error al obtener el responsable",
+      error: error.message,
+    });
+  }
 };
 
 // Crear responsable
 const createResponsible = async (req, res) => {
-
-    const {
-        name,
-        lastname,
-        document,
-        postJob,
-        active,
-        phone,
-        email,
-    } = req.body;
+  try {
+    const { name, lastname, document, postJob, active, phone, email } =
+      req.body;
 
     let errors = [];
 
-    if (!name || !lastname || !document || !postJob || !active || !phone || !email) {
-        errors.push("Todos los campos son obligatorios");
+    if (
+      !name ||
+      !lastname ||
+      !document ||
+      !postJob ||
+      !active ||
+      !phone ||
+      !email
+    ) {
+      errors.push("Todos los campos son obligatorios");
     }
 
     if (name === "") errors.push("El campo name no puede estar vacío");
@@ -94,133 +85,112 @@ const createResponsible = async (req, res) => {
     if (email === "") errors.push("El campo email no puede estar vacío");
 
     if (errors.length > 0) {
+      const response = new Response(
+        false,
+        "Error al crear el responsable",
+        errors,
+      );
 
-        const response = new Response(
-            false,
-            "Error al crear el responsable",
-            errors
-        );
-
-        return res.status(400).json(response.json);
+      return res.status(400).json(response.json);
     }
 
     const data = {
-        name,
-        lastname,
-        document,
-        postJob,
-        active,
-        phone,
-        email
+      name,
+      lastname,
+      document,
+      postJob,
+      active,
+      phone,
+      email,
     };
 
-    try {
+    const responsible = await createResponsibleService(data);
 
-        const responsible = await createResponsibleService(data);
+    const response = new Response(
+      true,
+      "Responsable creado exitosamente",
+      responsible,
+    );
 
-        const response = new Response(
-            true,
-            "Responsable creado exitosamente",
-            responsible
-        );
+    return res.status(201).json(response.json);
+  } catch (error) {
+    console.error("Error al crear el responsable:", error);
 
-        return res.status(201).json(response.json);
+    const response = new Response(
+      false,
+      "Error interno al crear el responsable",
+      error.message,
+    );
 
-    } catch (error) {
-
-        console.error("Error al crear el responsable:", error);
-
-        const response = new Response(
-            false,
-            "Error interno al crear el responsable",
-            error.message
-        );
-
-        return res.status(500).json(response.json);
-
-    }
-
+    return res.status(500).json(response.json);
+  }
 };
 
-// Actualizar responsalbe
+// Actualizar responsable
 const updateResponsible = async (req, res) => {
-    try {
+  try {
+    const { id } = req.params;
 
-        const { id } = req.params;
+    const { name, lastname, document, postJob, active, phone, email } =
+      req.body;
 
-        const {
-            name,
-            lastname,
-            document,
-            postJob,
-            active,
-            phone,
-            email
-        } = req.body;
+    const updatedResponsible = await updateResponsibleService(id, {
+      name,
+      lastname,
+      document,
+      postJob,
+      active,
+      phone,
+      email,
+    });
 
-        const updatedResponsible = await updateResponsibleService(id, {
-            name,
-            lastname,
-            document,
-            postJob,
-            active,
-            phone,
-            email
-        });
+    return res.status(200).json({
+      mensaje: `Responsable actualizado con ID: ${id}`,
+      responsible: updatedResponsible,
+    });
+  } catch (error) {
+    console.error("Error al actualizar el responsable:", error);
 
-        return res.status(200).json({
-            mensaje: `Responsable actualizado con ID: ${id}`,
-            responsible: updatedResponsible
-        });
+    const response = new Response(
+      false,
+      "Error interno al actualizar el responsable",
+      error.message,
+    );
 
-    } catch (error) {
-
-        console.error("Error al actualizar el responsable:", error);
-
-        const response = new Response(
-            false,
-            "Error interno al actualizar el responsable",
-            error.message
-        );
-
-        return res.status(500).json(response.json);
-
-    }
+    return res.status(500).json(response.json);
+  }
 };
 
 // Inactivar responsable
 const deleteResponsible = async (req, res) => {
-    try {
+  try {
+    const { id } = req.params;
 
-        const { id } = req.params;
+    const [updated] = await deleteResponsibleService(id);
 
-        const [updated] = await deleteResponsibleService(id);
-
-        if (updated === 0) {
-            return res.status(404).json({
-                mensaje: "Responsable no encontrado"
-            });
-        }
-
-        return res.status(200).json({
-            mensaje: `Responsable con ID ${id} inactivado correctamente`
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        return res.status(500).json({
-            mensaje: "Error al inactivar el responsable"
-        });
-
+    if (updated === 0) {
+      return res.status(404).json({
+        mensaje: "Responsable no encontrado",
+      });
     }
+
+    return res.status(200).json({
+      mensaje: `Responsable con ID ${id} inactivado correctamente`,
+    });
+  } catch (error) {
+    console.error("Error al inactivar el responsable:", error);
+
+    return res.status(500).json({
+      mensaje: "Error al inactivar el responsable",
+      error: error.message,
+    });
+  }
 };
 
 module.exports = {
-    getAllResponsibles,
-    getResponsibleById,
-    createResponsible,
-    updateResponsible,
-    deleteResponsible
+  getAllResponsibles,
+  getResponsibleById,
+  createResponsible,
+  updateResponsible,
+  deleteResponsible,
 };

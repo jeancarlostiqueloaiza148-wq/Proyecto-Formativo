@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+
 const {
     getAllMountings,
     getMountingById,
@@ -18,7 +20,7 @@ const {
  *       200:
  *         description: Lista de registros de monta
  */
-router.get("/mountings", getAllMountings);
+router.get("/mountings", ValidateToken, getAllMountings);
 
 /**
  * @swagger
@@ -35,7 +37,7 @@ router.get("/mountings", getAllMountings);
  *       200:
  *         description: Registro de monta encontrado
  */
-router.get("/mountings/:id", getMountingById);
+router.get("/mountings/:id", ValidateToken, getMountingById);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/mountings/:id", getMountingById);
  *       201:
  *         description: Registro de monta creado
  */
-router.post("/mountings", createMounting);
+router.post("/mountings", ValidateToken, createMounting);
 
 /**
  * @swagger
@@ -63,7 +65,7 @@ router.post("/mountings", createMounting);
  *       200:
  *         description: Registro de monta actualizado
  */
-router.put("/mountings/:id", updateMounting);
+router.put("/mountings/:id", ValidateToken, updateMounting);
 
 /**
  * @swagger
@@ -80,6 +82,6 @@ router.put("/mountings/:id", updateMounting);
  *       200:
  *         description: Registro de monta eliminado
  */
-router.delete("/mountings/:id", deleteMounting);
+router.delete("/mountings/:id", ValidateToken, deleteMounting);
 
 module.exports = router;

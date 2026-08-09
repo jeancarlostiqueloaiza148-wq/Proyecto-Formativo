@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+
 const {
     getAllHealths,
     getHealthById,
@@ -18,7 +20,7 @@ const {
  *       200:
  *         description: Lista de registros de salud
  */
-router.get("/healths", getAllHealths);
+router.get("/healths", ValidateToken, getAllHealths);
 
 /**
  * @swagger
@@ -35,7 +37,7 @@ router.get("/healths", getAllHealths);
  *       200:
  *         description: Registro de salud encontrado
  */
-router.get("/healths/:id", getHealthById);
+router.get("/healths/:id", ValidateToken, getHealthById);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/healths/:id", getHealthById);
  *       201:
  *         description: Registro de salud creado
  */
-router.post("/healths", createHealth);
+router.post("/healths", ValidateToken, createHealth);
 
 /**
  * @swagger
@@ -63,7 +65,7 @@ router.post("/healths", createHealth);
  *       200:
  *         description: Registro de salud actualizado
  */
-router.put("/healths/:id", updateHealth);
+router.put("/healths/:id", ValidateToken, updateHealth);
 
 /**
  * @swagger
@@ -80,6 +82,6 @@ router.put("/healths/:id", updateHealth);
  *       200:
  *         description: Registro de salud eliminado
  */
-router.delete("/healths/:id", deleteHealth);
+router.delete("/healths/:id", ValidateToken, deleteHealth);
 
 module.exports = router;

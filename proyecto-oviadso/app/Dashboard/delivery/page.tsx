@@ -32,7 +32,7 @@ function DeliveryPage() {
       <div className="max-w-7xl mx-auto bg-white shadow-lg rounded-xl p-6 border-t-4 border-orange-500">
 
         <h1 className="text-3xl font-bold text-center mb-6 text-orange-500">
-          Tabla de Partos
+          Listar Partos
         </h1>
 
         <div className="overflow-x-auto">

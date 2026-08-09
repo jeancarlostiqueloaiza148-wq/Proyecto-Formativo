@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+
 const {
     getAllMortalities,
     getMortalityById,
@@ -18,7 +20,7 @@ const {
  *       200:
  *         description: Lista de registros de mortalidad
  */
-router.get("/mortalities", getAllMortalities);
+router.get("/mortalities", ValidateToken, getAllMortalities);
 
 /**
  * @swagger
@@ -35,7 +37,7 @@ router.get("/mortalities", getAllMortalities);
  *       200:
  *         description: Registro de mortalidad encontrado
  */
-router.get("/mortalities/:id", getMortalityById);
+router.get("/mortalities/:id", ValidateToken, getMortalityById);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/mortalities/:id", getMortalityById);
  *       201:
  *         description: Registro de mortalidad creado
  */
-router.post("/mortalities", createMortality);
+router.post("/mortalities", ValidateToken, createMortality);
 
 /**
  * @swagger
@@ -63,7 +65,7 @@ router.post("/mortalities", createMortality);
  *       200:
  *         description: Registro de mortalidad actualizado
  */
-router.put("/mortalities/:id", updateMortality);
+router.put("/mortalities/:id", ValidateToken, updateMortality);
 
 /**
  * @swagger
@@ -80,6 +82,6 @@ router.put("/mortalities/:id", updateMortality);
  *       200:
  *         description: Registro de mortalidad eliminado
  */
-router.delete("/mortalities/:id", deleteMortality);
+router.delete("/mortalities/:id", ValidateToken, deleteMortality);
 
 module.exports = router;

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { ValidateToken } = require("../middlewares/handlerToken");
+
 const {
     getAllResponsibles,
     getResponsibleById,
@@ -18,7 +20,7 @@ const {
  *       200:
  *         description: Lista de responsables
  */
-router.get("/responsibles", getAllResponsibles);
+router.get("/responsibles", ValidateToken, getAllResponsibles);
 
 /**
  * @swagger
@@ -35,7 +37,7 @@ router.get("/responsibles", getAllResponsibles);
  *       200:
  *         description: Responsable encontrado
  */
-router.get("/responsibles/:id", getResponsibleById);
+router.get("/responsibles/:id", ValidateToken, getResponsibleById);
 
 /**
  * @swagger
@@ -46,7 +48,7 @@ router.get("/responsibles/:id", getResponsibleById);
  *       201:
  *         description: Responsable creado
  */
-router.post("/responsibles", createResponsible);
+router.post("/responsibles", ValidateToken, createResponsible);
 
 /**
  * @swagger
@@ -63,7 +65,7 @@ router.post("/responsibles", createResponsible);
  *       200:
  *         description: Responsable actualizado
  */
-router.put("/responsibles/:id", updateResponsible);
+router.put("/responsibles/:id", ValidateToken, updateResponsible);
 
 /**
  * @swagger
@@ -80,6 +82,6 @@ router.put("/responsibles/:id", updateResponsible);
  *       200:
  *         description: Responsable eliminado
  */
-router.delete("/responsibles/:id", deleteResponsible);
+router.delete("/responsibles/:id", ValidateToken, deleteResponsible);
 
 module.exports = router;

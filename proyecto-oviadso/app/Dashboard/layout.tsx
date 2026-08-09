@@ -1,59 +1,64 @@
+import Image from "next/image"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 
-
 export default function Layout({
- children
+  children,
 }: {
- children: React.ReactNode
+  children: React.ReactNode
 }) {
+  return (
+    <SidebarProvider>
 
+      <AppSidebar />
 
-return (
+      <main
+        className="
+        w-full
+        min-h-screen
+        bg-gray-50
+      "
+      >
 
-<SidebarProvider>
+        {/* Encabezado */}
+        <div
+          className="
+          p-4
+          flex
+          items-center
+          gap-2
+        "
+        >
+          <SidebarTrigger />
 
+          <div className="flex items-center gap-3">
 
-<AppSidebar />
+            <Image
+              src="/logo.png"
+              alt="Logo OVIADSO"
+              width={60}
+              height={48}
+              className="object-contain"
+            />
 
+            <h1
+              className="
+              text-2xl
+              font-extrabold
+              text-orange-500
+              tracking-wide
+            "
+            >
+              OVIADSO
+            </h1>
 
-<main className="
-w-full
-min-h-screen
-bg-gray-50
-">
+          </div>
+        </div>
 
+        {children}
 
-<div className="
-p-5
-flex
-items-center
-gap-3
-">
+      </main>
 
-<SidebarTrigger />
-
-
-<h1 className="
-text-2xl
-font-bold
-text-orange-500
-">
-OVIADSO
-</h1>
-
-
-</div>
-
-
-{children}
-
-
-</main>
-
-
-</SidebarProvider>
-
-)
-
+    </SidebarProvider>
+  )
 }

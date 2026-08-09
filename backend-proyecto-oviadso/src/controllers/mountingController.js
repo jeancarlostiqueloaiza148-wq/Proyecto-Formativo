@@ -1,211 +1,179 @@
 const {
-    getAllMountings: getAllMountingsService,
-    getMountingById: getMountingByIdService,
-    createMountingService,
-    updateMounting: updateMountingService,
-    deleteMounting: deleteMountingService
+  getAllMountings: getAllMountingsService,
+  getMountingById: getMountingByIdService,
+  createMountingService,
+  updateMounting: updateMountingService,
+  deleteMounting: deleteMountingService,
 } = require("../services/mountingService");
 
 const { Response } = require("../functions/response");
 
 // Obtener todas las montas
 const getAllMountings = async (req, res) => {
-
+  try {
     const body = req.body;
     console.log("Body recibido:", body);
 
-    try {
+    const mountings = await getAllMountingsService();
 
-        const mountings = await getAllMountingsService();
+    return res.status(200).json({
+      mensaje: "Obteniendo todas las montas",
+      data: mountings,
+    });
+  } catch (error) {
+    console.error("Error al obtener las montas:", error);
 
-        res.status(200).json({
-            mensaje: "Obteniendo todas las montas",
-            data: mountings
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            mensaje: "Error al obtener las montas",
-            error: error.message
-        });
-
-    }
+    return res.status(500).json({
+      mensaje: "Error al obtener las montas",
+      error: error.message,
+    });
+  }
 };
 
-// Obtener monta por id
+// Obtener monta por ID
 const getMountingById = async (req, res) => {
-
+  try {
     const { id } = req.params;
 
-    try {
+    const mounting = await getMountingByIdService(id);
 
-        const mounting = await getMountingByIdService(id);
-
-        if (!mounting) {
-            return res.status(404).json({
-                mensaje: "Monta no encontrada"
-            });
-        }
-
-        res.status(200).json({
-            mensaje: `Obteniendo la monta con ID: ${id}`,
-            data: mounting
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            mensaje: "Error al obtener la monta",
-            error: error.message
-        });
-
+    if (!mounting) {
+      return res.status(404).json({
+        mensaje: "Monta no encontrada",
+      });
     }
 
+    return res.status(200).json({
+      mensaje: `Obteniendo la monta con ID: ${id}`,
+      data: mounting,
+    });
+  } catch (error) {
+    console.error("Error al obtener la monta:", error);
+
+    return res.status(500).json({
+      mensaje: "Error al obtener la monta",
+      error: error.message,
+    });
+  }
 };
 
 // Crear monta
 const createMounting = async (req, res) => {
-
-    const {
-        type_of_mounting,
-        result_mounting,
-        breeding_male,
-        active
-    } = req.body;
+  try {
+    const { type_of_mounting, result_mounting, breeding_male, active } =
+      req.body;
 
     let errors = [];
 
     if (!type_of_mounting || !result_mounting || !breeding_male || !active) {
-        errors.push("Todos los campos son obligatorios");
+      errors.push("Todos los campos son obligatorios");
     }
 
-    if (type_of_mounting === "") errors.push("El campo type_of_mounting no puede estar vacío");
-    if (result_mounting  === "") errors.push("El campo result_mounting  no puede estar vacío");
-    if (breeding_male === "") errors.push("El campo breeding_maleno no puede estar vacío");
+    if (type_of_mounting === "")
+      errors.push("El campo type_of_mounting no puede estar vacío");
+    if (result_mounting === "")
+      errors.push("El campo result_mounting no puede estar vacío");
+    if (breeding_male === "")
+      errors.push("El campo breeding_male no puede estar vacío");
     if (active === "") errors.push("El campo active no puede estar vacío");
 
     if (errors.length > 0) {
+      const response = new Response(false, "Error al crear la monta", errors);
 
-        const response = new Response(
-            false,
-            "Error al crear la monta",
-            errors
-        );
-
-        return res.status(400).json(response.json);
+      return res.status(400).json(response.json);
     }
 
     const data = {
-        type_of_mounting,
-        result_mounting,
-        breeding_male,
-        active
+      type_of_mounting,
+      result_mounting,
+      breeding_male,
+      active,
     };
 
-    try {
+    const mounting = await createMountingService(data);
 
-        const mounting = await createMountingService(data);
+    const response = new Response(
+      true,
+      "Monta registrada exitosamente",
+      mounting,
+    );
 
-        const response = new Response(
-            true,
-            "Monta registrada exitosamente",
-            mounting
-        );
+    return res.status(201).json(response.json);
+  } catch (error) {
+    console.error("Error al registrar la monta:", error);
 
-        return res.status(201).json(response.json);
+    const response = new Response(
+      false,
+      "Error interno al registrar la monta",
+      error.message,
+    );
 
-    } catch (error) {
-
-        console.error("Error al registrar la monta:", error);
-
-        const response = new Response(
-            false,
-            "Error interno al registrar la monta",
-            error.message
-        );
-
-        return res.status(500).json(response.json);
-    }
+    return res.status(500).json(response.json);
+  }
 };
 
 // Actualizar monta
 const updateMounting = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-    try {
+    const { type_of_mounting, result_mounting, breeding_male, active } =
+      req.body;
 
-        const { id } = req.params;
+    const updatedMounting = await updateMountingService(id, {
+      type_of_mounting,
+      result_mounting,
+      breeding_male,
+      active,
+    });
 
-        const {
-        type_of_mounting,
-        result_mounting,
-        breeding_male,
-        active
-        } = req.body;
+    return res.status(200).json({
+      mensaje: `Monta actualizada con ID: ${id}`,
+      mounting: updatedMounting,
+    });
+  } catch (error) {
+    console.error("Error al actualizar la monta:", error);
 
-        const updatedMounting = await updateMountingService(id, {
-        type_of_mounting,
-        result_mounting,
-        breeding_male,
-        active
-        });
+    const response = new Response(
+      false,
+      "Error interno al actualizar la monta",
+      error.message,
+    );
 
-        return res.status(200).json({
-            mensaje: `Monta actualizada con ID: ${id}`,
-            mounting: updatedMounting
-        });
-
-    } catch (error) {
-
-        console.error("Error al actualizar la monta:", error);
-
-        const response = new Response(
-            false,
-            "Error interno al actualizar la monta",
-            error.message
-        );
-
-        return res.status(500).json(response.json);
-    }
+    return res.status(500).json(response.json);
+  }
 };
 
 // Inactivar monta
 const deleteMounting = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-    try {
+    const [updated] = await deleteMountingService(id);
 
-        const { id } = req.params;
-
-        const [updated] = await deleteMountingService(id);
-
-        if (updated === 0) {
-            return res.status(404).json({
-                mensaje: "Monta no encontrada"
-            });
-        }
-
-        return res.status(200).json({
-            mensaje: `Monta con ID ${id} inactivada correctamente`
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        return res.status(500).json({
-            mensaje: "Error al inactivar la monta"
-        });
+    if (updated === 0) {
+      return res.status(404).json({
+        mensaje: "Monta no encontrada",
+      });
     }
+
+    return res.status(200).json({
+      mensaje: `Monta con ID ${id} inactivada correctamente`,
+    });
+  } catch (error) {
+    console.error("Error al inactivar la monta:", error);
+
+    return res.status(500).json({
+      mensaje: "Error al inactivar la monta",
+      error: error.message,
+    });
+  }
 };
 
 module.exports = {
-    getAllMountings,
-    getMountingById,
-    createMounting,
-    updateMounting,
-    deleteMounting
+  getAllMountings,
+  getMountingById,
+  createMounting,
+  updateMounting,
+  deleteMounting,
 };

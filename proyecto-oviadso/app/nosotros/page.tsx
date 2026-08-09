@@ -121,7 +121,11 @@ export default function Nosotros() {
             <div className="flex justify-center gap-12 flex-wrap">
 
               <div className="bg-white p-6 rounded-3xl shadow-lg text-center w-72 hover:shadow-2xl transition">
-                <div className="w-32 h-32 bg-orange-100 rounded-full mx-auto mb-4"></div>
+                <img
+                  src="/instructora.png"
+                  alt="Myriam Yaneth Gonzales Reyes"
+                  className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-orange-200 mb-4"
+                />
                 <p className="font-bold text-lg">
                   Myriam Yaneth Gonzales Reyes
                 </p>
@@ -134,17 +138,28 @@ export default function Nosotros() {
               </div>
 
               <div className="bg-white p-6 rounded-3xl shadow-lg text-center w-72 hover:shadow-2xl transition">
-                <div className="w-32 h-32 bg-orange-100 rounded-full mx-auto mb-4"></div>
+                <img
+                  src="/instructor.png"
+                  alt="Euclidez Norbey Basto Ortiz"
+                  className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-orange-200 mb-4"
+                />
                 <p className="font-bold text-lg">
                   Euclidez Norbey Basto Ortiz
                 </p>
                 <p className="text-gray-500">
                   Ingeniero de Sistemas
+                  <p className="text-sm text-gray-400">
+                    Con especialización en proyectos
+                  </p>
                 </p>
               </div>
 
               <div className="bg-white p-6 rounded-3xl shadow-lg text-center w-72 hover:shadow-2xl transition">
-                <div className="w-32 h-32 bg-orange-100 rounded-full mx-auto mb-4"></div>
+                <img
+                  src="/instructoragladys.jpeg"
+                  alt="Gladys María Cardeño Ardila"
+                  className="w-32 h-32 mx-auto rounded-full object-cover border-4 border-orange-200 mb-4"
+                />
                 <p className="font-bold text-lg">
                   Gladys María Cardeño Ardila
                 </p>
