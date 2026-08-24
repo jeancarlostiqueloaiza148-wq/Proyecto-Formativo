@@ -64,7 +64,6 @@ const createBirth = async (req, res) => {
       date,
       ovine_id,
       mother_id,
-      weight,
       status,
       postJob,
       active,
@@ -77,7 +76,6 @@ const createBirth = async (req, res) => {
       !date ||
       !ovine_id ||
       !mother_id ||
-      !weight ||
       !status ||
       !postJob ||
       !active ||
@@ -90,7 +88,6 @@ const createBirth = async (req, res) => {
     if (ovine_id === "") errors.push("El campo ovine_id no puede estar vacío");
     if (mother_id === "")
       errors.push("El campo mother_id no puede estar vacío");
-    if (weight === "") errors.push("El campo weight no puede estar vacío");
     if (status === "") errors.push("El campo status no puede estar vacío");
     if (postJob === "") errors.push("El campo postJob no puede estar vacío");
     if (active === "") errors.push("El campo active no puede estar vacío");
@@ -110,7 +107,6 @@ const createBirth = async (req, res) => {
       date,
       ovine_id,
       mother_id,
-      weight,
       status,
       postJob,
       active,
@@ -148,7 +144,6 @@ const updateBirth = async (req, res) => {
       date,
       ovine_id,
       mother_id,
-      weight,
       status,
       postJob,
       active,
@@ -159,7 +154,6 @@ const updateBirth = async (req, res) => {
       date,
       ovine_id,
       mother_id,
-      weight,
       status,
       postJob,
       active,

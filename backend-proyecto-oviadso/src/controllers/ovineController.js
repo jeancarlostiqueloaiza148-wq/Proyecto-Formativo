@@ -103,7 +103,6 @@ const createOvine = async (req, res) => {
       weight,
       status,
       active,
-      image: req.file ? req.file.path : null
     };
 
     const ovine = await createOvineService(data);

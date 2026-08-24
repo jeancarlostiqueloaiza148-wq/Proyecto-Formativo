@@ -23,12 +23,7 @@ const Birth = db.define("births", {
         min: 3,
         allowNull: false
     },
-    weight: {
-        type: DataTypes.DECIMAL,
-        max: 10,
-        min: 0,
-        allowNull: false
-    },
+    
     status: {
         type: DataTypes.STRING,
         max: 40,

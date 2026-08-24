@@ -1,87 +1,81 @@
 const { DataTypes } = require("sequelize");
+
 const db = require("../config/conectionDB");
 
 const User = db.define("users", {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
 
-  username: {
-    type: DataTypes.STRING,
-    max: 50,
-    min: 3,
-    allowNull: false,
-  },
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
 
-  email: {
-    type: DataTypes.STRING,
-    max: 50,
-    min: 3,
-    allowNull: false,
-    unique: true,
-},
+    username: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+    },
 
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-},
+    email: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: true,
+    },
 
-  role: {
-    type: DataTypes.STRING,
-    max: 50,
-    min: 3,
-    allowNull: false,
-  },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
 
-  postJob: {
-    type: DataTypes.STRING,
-    max: 50,
-    min: 3,
-    allowNull: false,
-  },
+    id_rol: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
 
-  verifyEmail: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
+    postJob: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+    },
 
-  active: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: true,
-  },
+    verifyEmail: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
 
-  status: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
+    active: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+    },
 
-  documentId: {
-    type: DataTypes.STRING,
-    max: 50,
-    allowNull: false,
-  },
+    status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+    },
 
-  resetPasswordToken: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+    documentId: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+    },
 
-  resetPasswordExpires: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
+    resetPasswordToken: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
+    resetPasswordExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
 
-  updatedAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
-  },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+
+    updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+
 });
 
 module.exports = User;

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const { ValidateToken } = require("../middlewares/handlerToken");
-const { upload } = require("../middlewares/uploadImage");
 
 const {
     getAllOvines,
@@ -49,12 +48,7 @@ router.get("/ovines/:id", ValidateToken, getOvineById);
  *       201:
  *         description: Ovino creado
  */
-router.post(
-    "/ovines",
-    ValidateToken,
-    upload.single("image"),
-    createOvine
-);
+router.post("/ovines",ValidateToken, createOvine);
 
 /**
  * @swagger
