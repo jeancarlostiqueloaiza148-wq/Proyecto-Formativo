@@ -20,10 +20,18 @@ const { sendEmail } = require("../services/emailService");
 // Obtener todos los usuarios
 const getAllUsers = async (req, res) => {
   try {
+    const queryLimit = req.query.limit;
+    const queryOffset = req.query.offset;
+
+    //2. Convertir y validar los datos usando la funcion contructora Number
+    const limit = queryLimit ? Number(queryLimit) : 10;
+    const offset = queryOffset ? Number(queryOffset) : 0;
+
+
     const body = req.body;
     console.log("Body recibido:", body);
 
-    const users = await getAllUsersService();
+    const users = await getAllUsersService(limit,offset);
 
     return res.status(200).json({
       mensaje: "Obteniendo todos los usuarios",

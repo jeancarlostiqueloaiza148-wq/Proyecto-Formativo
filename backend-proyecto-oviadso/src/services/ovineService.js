@@ -1,9 +1,9 @@
 const ovine = require("../models/ovineModel");
 
 // Obtener todos los ovinos
-const getAllOvines = async () => {
+const getAllOvines = async (limit, offset) => {
     try {
-        const ovines = await ovine.findAll();
+        const ovines = await ovine.findAll({limit:limit,offset:offset});
         return ovines;
     } catch (error) {
         console.log(error);

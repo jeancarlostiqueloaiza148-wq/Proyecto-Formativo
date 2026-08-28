@@ -1,9 +1,9 @@
 const feeding = require("../models/feedingModel");
 
 // Obtener todas las alimentaciones
-const getAllFeedings = async () => {
+const getAllFeedings = async (limit, offset) => {
     try {
-        const feedings = await feeding.findAll();
+        const feedings = await feeding.findAll({limit:limit,offset:offset});
         return feedings;
     } catch (error) {
         console.log(error);

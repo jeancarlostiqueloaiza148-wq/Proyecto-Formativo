@@ -1,26 +1,32 @@
 const express = require("express");
 const router = express.Router();
 
-// Importar controllers
+
 const {
     login,
     forgotPassword,
+    newPassword,
     resetPassword
 } = require("../controllers/authController");
 
 
-// LOGIN
 
+// Login
 router.post("/login", login);
 
 
-// Recuperar de contraseña
-
+// Recuperar Contraseña
 router.post("/forgot-password", forgotPassword);
 
 
-// Restablecer contraseña
 
+// Nueva Contraseña
+router.post("/new-password", newPassword);
+
+
+
+// Restablecer Contraseña
 router.post("/reset-password", resetPassword);
+
 
 module.exports = router;

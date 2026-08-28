@@ -37,7 +37,7 @@ router.get("/feedings", ValidateToken, getAllFeedings);
  *       200:
  *         description: Alimentación encontrada
  */
-router.get("/feedings/:id", ValidateToken, getFeedingById);
+router.get("/feedings/:id", ValidateToken,  getFeedingById);
 
 /**
  * @swagger

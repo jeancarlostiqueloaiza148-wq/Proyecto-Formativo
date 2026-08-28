@@ -18,12 +18,12 @@ const JWT_KEY_SECRET =
     process.env.JWT_KEY_SECRET || "3247890sihsdfg2345sdfg";
 
 
+
 // Login
 const login = async (req, res) => {
     try {
         const { userName, password } = req.body;
 
-        // Validar campos
         if (!userName || !password) {
             const response = new Response(
                 false,
@@ -34,7 +34,6 @@ const login = async (req, res) => {
             return res.status(400).json(response.json);
         }
 
-        // Buscar usuario por username
         const user = await getUserByUsername(userName);
 
         if (!user) {
@@ -47,7 +46,6 @@ const login = async (req, res) => {
             return res.status(401).json(response.json);
         }
 
-        // Verificar que el usuario esté activo
         if (!user.active) {
             const response = new Response(
                 false,
@@ -58,7 +56,6 @@ const login = async (req, res) => {
             return res.status(403).json(response.json);
         }
 
-        // Comprobar contraseña con bcrypt
         const passwordCorrect = await bcrypt.compare(
             password,
             user.password
@@ -74,7 +71,6 @@ const login = async (req, res) => {
             return res.status(401).json(response.json);
         }
 
-        // Generar token JWT
         const token = jwt.sign(
             {
                 id: user.id,
@@ -117,19 +113,18 @@ const login = async (req, res) => {
 };
 
 
-// FORGOT PASSWORD
+
+// Forgot Password
 const forgotPassword = async (req, res) => {
     try {
         const { email } = req.body;
 
-        // Validar correo
         if (!email) {
             return res.status(400).json({
                 mensaje: "El correo es obligatorio"
             });
         }
 
-        // Buscar usuario por correo
         const user = await getUserByEmail(email);
 
         if (!user) {
@@ -138,22 +133,21 @@ const forgotPassword = async (req, res) => {
             });
         }
 
-        // Generar token aleatorio
+        // Generar token de recuperación
         const token = crypto.randomBytes(32).toString("hex");
 
-        // El token tendrá una duración de 1 hora
+        // El token expira en 1 hora
         const expires = new Date(
             Date.now() + 60 * 60 * 1000
         );
 
-        // Guardar token y fecha de vencimiento
+        // Guardar token
         await saveResetPasswordToken(
             user.id,
             token,
             expires
         );
 
-        // Mostrar temporalmente el token para realizar pruebas
         console.log("Token de recuperación:", token);
 
         return res.status(200).json({
@@ -162,7 +156,7 @@ const forgotPassword = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error en forgot password:", error);
+        console.error("Error en forgotPassword:", error);
 
         return res.status(500).json({
             mensaje: "Error interno del servidor",
@@ -173,17 +167,11 @@ const forgotPassword = async (req, res) => {
 
 
 
-// resetPassword
-const resetPassword = async (req, res) => {
-    try {
-        const { token, newPassword } = req.body;
+// New Password
 
-        // Validar token
-        if (!token) {
-            return res.status(400).json({
-                mensaje: "El token es obligatorio"
-            });
-        }
+const newPassword = async (req, res) => {
+    try {
+        const { newPassword } = req.body;
 
         // Validar nueva contraseña
         if (!newPassword) {
@@ -192,7 +180,53 @@ const resetPassword = async (req, res) => {
             });
         }
 
-        // Validar longitud mínima
+        // Validar longitud
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                mensaje: "La contraseña debe tener mínimo 6 caracteres"
+            });
+        }
+
+        return res.status(200).json({
+            mensaje: "Nueva contraseña recibida correctamente",
+            newPassword: newPassword
+        });
+
+    } catch (error) {
+        console.error("Error en newPassword:", error);
+
+        return res.status(500).json({
+            mensaje: "Error interno del servidor",
+            error: error.message
+        });
+    }
+};
+
+
+// Reset Password
+
+const resetPassword = async (req, res) => {
+    try {
+        const {
+            token,
+            newPassword
+        } = req.body;
+
+        // Validar token
+        if (!token) {
+            return res.status(400).json({
+                mensaje: "El token es obligatorio"
+            });
+        }
+
+        // Validar newPassword
+        if (!newPassword) {
+            return res.status(400).json({
+                mensaje: "La nueva contraseña es obligatoria"
+            });
+        }
+
+        // Validar longitud
         if (newPassword.length < 6) {
             return res.status(400).json({
                 mensaje: "La contraseña debe tener mínimo 6 caracteres"
@@ -208,7 +242,7 @@ const resetPassword = async (req, res) => {
             });
         }
 
-        // Verificar si el token ya expiró
+        // Verificar expiración
         if (
             !user.resetPasswordExpires ||
             new Date() > new Date(user.resetPasswordExpires)
@@ -218,13 +252,13 @@ const resetPassword = async (req, res) => {
             });
         }
 
-        // Cifrar nueva contraseña
+        // Encriptar contraseña
         const hashedPassword = await bcrypt.hash(
             newPassword,
             10
         );
 
-        // Actualizar contraseña y eliminar token
+        // Actualizar contraseña
         await user.update({
             password: hashedPassword,
             resetPasswordToken: null,
@@ -236,7 +270,7 @@ const resetPassword = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error en reset password:", error);
+        console.error("Error en resetPassword:", error);
 
         return res.status(500).json({
             mensaje: "Error interno del servidor",
@@ -249,5 +283,6 @@ const resetPassword = async (req, res) => {
 module.exports = {
     login,
     forgotPassword,
+    newPassword,
     resetPassword
 };

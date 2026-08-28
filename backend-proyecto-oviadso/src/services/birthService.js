@@ -1,9 +1,9 @@
 const birth = require("../models/birthModel");
 
 // Obtener todos los nacimientos
-const getAllBirths = async () => {
+const getAllBirths = async (limit, offset) => {
     try {
-        const births = await birth.findAll();
+        const births = await birth.findAll({limit:limit,offset:offset});
         return births;
     } catch (error) {
         console.log(error);

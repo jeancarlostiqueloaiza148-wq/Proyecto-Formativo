@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de nacimientos
  */
-router.get("/births", ValidateToken, getAllBirths);
+router.get("/births",ValidateToken, getAllBirths);
 
 /**
  * @swagger

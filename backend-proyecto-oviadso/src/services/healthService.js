@@ -1,9 +1,9 @@
 const health = require("../models/healthModel");
 
 // Obtener todos los registros de salud
-const getAllHealths = async () => {
+const getAllHealths = async (limit, offset) => {
     try {
-        const healths = await health.findAll();
+        const healths = await health.findAll({limit:limit,offset:offset});
         return healths;
     } catch (error) {
         console.log(error);

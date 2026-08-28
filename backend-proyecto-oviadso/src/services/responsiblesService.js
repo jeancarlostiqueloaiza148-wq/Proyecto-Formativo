@@ -1,9 +1,9 @@
 const responsible = require("../models/responsiblesModel");
 
 // Obtener todos los responsables
-const getAllResponsibles = async () => {
+const getAllResponsibles = async (limit, offset) => {
   try {
-    const responsibles = await responsible.findAll();
+    const responsibles = await responsible.findAll({limit:limit,offset:offset});
     return responsibles;
   } catch (error) {
     console.log(error);

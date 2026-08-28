@@ -11,10 +11,17 @@ const { Response } = require("../functions/response");
 // Obtener todos los partos
 const getAllDeliveries = async (req, res) => {
   try {
+     const queryLimit = req.query.limit;
+    const queryOffset = req.query.offset;
+
+    //2. Convertir y validar los datos usando la funcion contructora Number
+    const limit = queryLimit ? Number(queryLimit) : 10;
+    const offset = queryOffset ? Number(queryOffset) : 0;
+
     const body = req.body;
     console.log("Body recibido:", body);
 
-    const deliveries = await getAllDeliveriesService();
+    const deliveries = await getAllDeliveriesService(limit,offset);
 
     res.status(200).json({
       mensaje: "Obteniendo todos los partos",

@@ -1,9 +1,9 @@
 const mounting = require("../models/mountingModel");
 
 // Obtener todas las montas
-const getAllMountings = async () => {
+const getAllMountings = async (limit, offset) => {
     try {
-        const mountings = await mounting.findAll();
+        const mountings = await mounting.findAll({limit:limit,offset:offset});
         return mountings;
     } catch (error) {
         console.log(error);

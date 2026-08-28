@@ -2,9 +2,10 @@ const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 
 // Obtener todos los usuarios
-const AllUsers = async () => {
+const AllUsers = async (limit, offset) => {
     try {
-        const users = await userModel.findAll();
+
+        const users = await userModel.findAll({limit:limit,offset:offset});
         return users;
     } catch (error) {
         console.log(error);

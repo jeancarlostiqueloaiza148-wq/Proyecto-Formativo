@@ -3,9 +3,9 @@ const delivery = require("../models/deliveryModel");
 
 
 // Obtener todos los partos
-const getAllDeliveries = async () => {
+const getAllDeliveries = async (limit, offset) => {
   try {
-    const deliveries = await delivery.findAll();
+    const deliveries = await delivery.findAll({limit:limit,offset:offset});
     return deliveries;
   } catch (error) {
     console.log(error);
