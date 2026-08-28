@@ -48,7 +48,6 @@ function BirthPage() {
                 <th className="p-3">Fecha</th>
                 <th className="p-3">Ovino</th>
                 <th className="p-3">Madre</th>
-                <th className="p-3">Peso</th>
                 <th className="p-3">Estado de Salud</th>
                 <th className="p-3">Proceso</th>
                 <th className="p-3">Observaciones</th>
