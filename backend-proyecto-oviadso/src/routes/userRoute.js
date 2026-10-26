@@ -19,7 +19,7 @@ const {
  *       200:
  *         description: Lista de usuarios
  */
-router.get("/users", ValidateToken, getAllUsers);
+router.get("/users",  getAllUsers);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/users", ValidateToken, getAllUsers);
  *         description: Usuario encontrado
  */
 
-router.get("/users/:id", ValidateToken, getUserById);
+router.get("/users/:id",  getUserById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/users/:id", ValidateToken, getUserById);
  *       201:
  *         description: Usuario creado
  */
-router.post("/users", ValidateToken, createUser);
+router.post("/users",  createUser);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/users", ValidateToken, createUser);
  *       200:
  *         description: Usuario actualizado
  */
-router.put("/users/:id", ValidateToken, updateUser);
+router.put("/users/:id", updateUser);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/users/:id", ValidateToken, updateUser);
  *       200:
  *         description: Usuario eliminado
  */
-router.delete("/users/:id", ValidateToken, deleteUser);
+router.delete("/users/:id", deleteUser);
 
 module.exports = router;

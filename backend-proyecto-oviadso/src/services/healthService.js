@@ -1,10 +1,17 @@
 const health = require("../models/healthModel");
 
-// Obtener todos los registros de salud
+// Obtener todos los registros de sanidad
 const getAllHealths = async (limit, offset) => {
     try {
-        const healths = await health.findAll({limit:limit,offset:offset});
-        return healths;
+        const { count, rows } = await health.findAndCountAll({
+            limit: limit,
+            offset: offset
+        });
+
+        return {
+            count: count,
+            rows: rows
+        };
     } catch (error) {
         console.log(error);
         throw error;

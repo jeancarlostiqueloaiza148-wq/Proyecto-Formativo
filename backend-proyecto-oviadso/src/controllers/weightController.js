@@ -21,13 +21,16 @@ const getAllWeights = async (req, res) => {
     const body = req.body;
     console.log("Body recibido:", body);
 
-    const weights = await getAllWeightsService(limit,offset);
+    const weights = await getAllWeightsService(limit, offset);
 
     return res.status(200).json({
       mensaje: "Obteniendo todos los pesos",
-      data: weights,
+      data: weights.rows,
+      total: weights.count,
     });
+
   } catch (error) {
+
     console.error("Error al obtener los pesos:", error);
 
     return res.status(500).json({
@@ -67,11 +70,11 @@ const getWeightById = async (req, res) => {
 // Crear peso
 const createWeight = async (req, res) => {
   try {
-    const { date, id_ovine, weight, notes, active } = req.body;
+    const { date, id_ovine, weight, notes } = req.body;
 
     let errors = [];
 
-    if (!date || !id_ovine || !weight || !notes || active === undefined) {
+    if (!date || !id_ovine || !weight || !notes) {
       errors.push("Todos los campos son obligatorios");
     }
 
@@ -79,7 +82,6 @@ const createWeight = async (req, res) => {
     if (id_ovine === "") errors.push("El campo id_ovine no puede estar vacío");
     if (weight === "") errors.push("El campo weight no puede estar vacío");
     if (notes === "") errors.push("El campo notes no puede estar vacío");
-    if (active === "") errors.push("El campo active no puede estar vacío");
 
     if (errors.length > 0) {
       const response = new Response(false, "Error al crear el peso", errors);
@@ -92,7 +94,7 @@ const createWeight = async (req, res) => {
       id_ovine,
       weight,
       notes,
-      active,
+      active: true,
     };
 
     const weightCreated = await createWeightService(data);

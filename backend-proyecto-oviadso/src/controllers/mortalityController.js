@@ -11,21 +11,21 @@ const { Response } = require("../functions/response");
 // Obtener todas las mortalidades
 const getAllMortalities = async (req, res) => {
   try {
-     const queryLimit = req.query.limit;
+    const queryLimit = req.query.limit;
     const queryOffset = req.query.offset;
 
-    //2. Convertir y validar los datos usando la funcion contructora Number
     const limit = queryLimit ? Number(queryLimit) : 10;
     const offset = queryOffset ? Number(queryOffset) : 0;
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    const mortalities = await getAllMortalitiesService(limit,offset);
+    const resultado = await getAllMortalitiesService(limit, offset);
 
     return res.status(200).json({
       mensaje: "Obteniendo todas las mortalidades",
-      data: mortalities,
+      data: resultado.rows,
+      total: resultado.count,
     });
   } catch (error) {
     console.error("Error al obtener las mortalidades:", error);

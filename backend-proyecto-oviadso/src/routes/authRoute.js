@@ -1,31 +1,29 @@
 const express = require("express");
-const router = express.Router();
-
 
 const {
     login,
     forgotPassword,
-    newPassword,
+    verifyResetToken,
     resetPassword
 } = require("../controllers/authController");
 
+const router = express.Router();
 
 
 // Login
 router.post("/login", login);
 
 
-// Recuperar Contraseña
+// Solicitar cambio de contraseña
 router.post("/forgot-password", forgotPassword);
 
 
 
-// Nueva Contraseña
-router.post("/new-password", newPassword);
+// Validar token de recuperación
+router.post("/verify-reset-token", verifyResetToken);
 
 
-
-// Restablecer Contraseña
+// Restablecer contraseña
 router.post("/reset-password", resetPassword);
 
 

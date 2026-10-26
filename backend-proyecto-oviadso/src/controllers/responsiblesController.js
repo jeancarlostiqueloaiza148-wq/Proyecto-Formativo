@@ -1,6 +1,7 @@
 const {
   getAllResponsibles: getAllResponsiblesService,
   getResponsibleById: getResponsibleByIdService,
+  countResponsibles: countResponsiblesService,
   createResponsibleService,
   updateResponsible: updateResponsibleService,
   deleteResponsible: deleteResponsibleService,
@@ -14,18 +15,19 @@ const getAllResponsibles = async (req, res) => {
     const queryLimit = req.query.limit;
     const queryOffset = req.query.offset;
 
-    //2. Convertir y validar los datos usando la funcion contructora Number
+    // Convertir y validar los datos
     const limit = queryLimit ? Number(queryLimit) : 10;
     const offset = queryOffset ? Number(queryOffset) : 0;
 
-    const body = req.body;
-    console.log("Body recibido:", body);
-
-    const responsibles = await getAllResponsiblesService(limit,offset);
+    const responsibles = await getAllResponsiblesService(limit, offset);
+    const total = await countResponsiblesService();
 
     return res.status(200).json({
       mensaje: "Obteniendo todos los responsables",
       data: responsibles,
+      total: total,
+      totalPages: Math.ceil(total / limit),
+      currentPage: Math.floor(offset / limit) + 1,
     });
   } catch (error) {
     console.error("Error al obtener los responsables:", error);

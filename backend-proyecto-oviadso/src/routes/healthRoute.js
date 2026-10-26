@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de registros de salud
  */
-router.get("/healths", ValidateToken, getAllHealths);
+router.get("/healths", getAllHealths);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/healths", ValidateToken, getAllHealths);
  *       200:
  *         description: Registro de salud encontrado
  */
-router.get("/healths/:id", ValidateToken, getHealthById);
+router.get("/healths/:id",  getHealthById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/healths/:id", ValidateToken, getHealthById);
  *       201:
  *         description: Registro de salud creado
  */
-router.post("/healths", ValidateToken, createHealth);
+router.post("/healths",  createHealth);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/healths", ValidateToken, createHealth);
  *       200:
  *         description: Registro de salud actualizado
  */
-router.put("/healths/:id", ValidateToken, updateHealth);
+router.put("/healths/:id",  updateHealth);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/healths/:id", ValidateToken, updateHealth);
  *       200:
  *         description: Registro de salud eliminado
  */
-router.delete("/healths/:id", ValidateToken, deleteHealth);
+router.delete("/healths/:id", deleteHealth);
 
 module.exports = router;

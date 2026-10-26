@@ -3,8 +3,15 @@ const birth = require("../models/birthModel");
 // Obtener todos los nacimientos
 const getAllBirths = async (limit, offset) => {
     try {
-        const births = await birth.findAll({limit:limit,offset:offset});
-        return births;
+        const { count, rows } = await birth.findAndCountAll({
+            limit: limit,
+            offset: offset
+        });
+
+        return {
+            count: count,
+            rows: rows
+        };
     } catch (error) {
         console.log(error);
         throw error;

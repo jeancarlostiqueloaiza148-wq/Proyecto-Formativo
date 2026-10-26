@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de registros de mortalidad
  */
-router.get("/mortalities", ValidateToken, getAllMortalities);
+router.get("/mortalities",  getAllMortalities);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/mortalities", ValidateToken, getAllMortalities);
  *       200:
  *         description: Registro de mortalidad encontrado
  */
-router.get("/mortalities/:id", ValidateToken, getMortalityById);
+router.get("/mortalities/:id", getMortalityById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/mortalities/:id", ValidateToken, getMortalityById);
  *       201:
  *         description: Registro de mortalidad creado
  */
-router.post("/mortalities", ValidateToken, createMortality);
+router.post("/mortalities",createMortality);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/mortalities", ValidateToken, createMortality);
  *       200:
  *         description: Registro de mortalidad actualizado
  */
-router.put("/mortalities/:id", ValidateToken, updateMortality);
+router.put("/mortalities/:id",  updateMortality);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/mortalities/:id", ValidateToken, updateMortality);
  *       200:
  *         description: Registro de mortalidad eliminado
  */
-router.delete("/mortalities/:id", ValidateToken, deleteMortality);
+router.delete("/mortalities/:id",  deleteMortality);
 
 module.exports = router;

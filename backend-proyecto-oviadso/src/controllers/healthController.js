@@ -8,24 +8,24 @@ const {
 
 const { Response } = require("../functions/response");
 
-// Obtener todas las sanidades
+// Obtener todos los registros de sanidad
 const getAllHealths = async (req, res) => {
   try {
-     const queryLimit = req.query.limit;
+    const queryLimit = req.query.limit;
     const queryOffset = req.query.offset;
 
-    //2. Convertir y validar los datos usando la funcion contructora Number
     const limit = queryLimit ? Number(queryLimit) : 10;
     const offset = queryOffset ? Number(queryOffset) : 0;
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    const healths = await getAllHealthsService(limit,offset);
+    const resultado = await getAllHealthsService(limit, offset);
 
     return res.status(200).json({
       mensaje: "Obteniendo todos los registros de sanidad",
-      data: healths,
+      data: resultado.rows,
+      total: resultado.count,
     });
   } catch (error) {
     console.error("Error al obtener los registros de sanidad:", error);

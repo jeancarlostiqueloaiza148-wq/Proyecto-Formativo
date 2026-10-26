@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de alimentaciones
  */
-router.get("/feedings", ValidateToken, getAllFeedings);
+router.get("/feedings",  getAllFeedings);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/feedings", ValidateToken, getAllFeedings);
  *       200:
  *         description: Alimentación encontrada
  */
-router.get("/feedings/:id", ValidateToken,  getFeedingById);
+router.get("/feedings/:id",  getFeedingById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/feedings/:id", ValidateToken,  getFeedingById);
  *       201:
  *         description: Alimentación creada
  */
-router.post("/feedings", ValidateToken, createFeeding);
+router.post("/feedings",  createFeeding);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/feedings", ValidateToken, createFeeding);
  *       200:
  *         description: Alimentación actualizada
  */
-router.put("/feedings/:id", ValidateToken, updateFeeding);
+router.put("/feedings/:id",  updateFeeding);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/feedings/:id", ValidateToken, updateFeeding);
  *       200:
  *         description: Alimentación eliminada
  */
-router.delete("/feedings/:id", ValidateToken, deleteFeeding);
+router.delete("/feedings/:id",  deleteFeeding);
 
 module.exports = router;

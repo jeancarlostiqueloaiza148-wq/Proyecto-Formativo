@@ -3,8 +3,15 @@ const mortality = require("../models/mortalityModel");
 // Obtener todas las mortalidades
 const getAllMortalities = async (limit, offset) => {
     try {
-        const mortalities = await mortality.findAll({limit:limit,offset:offset});
-        return mortalities;
+        const { count, rows } = await mortality.findAndCountAll({
+            limit: limit,
+            offset: offset
+        });
+
+        return {
+            count: count,
+            rows: rows
+        };
     } catch (error) {
         console.log(error);
         throw error;

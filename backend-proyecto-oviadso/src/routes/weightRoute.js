@@ -19,7 +19,7 @@ const {
  *       200:
  *         description: Lista de pesos
  */
-router.get("/weights", ValidateToken, getAllWeights);
+router.get("/weights",  getAllWeights);
 
 /**
  * @swagger
@@ -36,7 +36,7 @@ router.get("/weights", ValidateToken, getAllWeights);
  *       200:
  *         description: Peso encontrado
  */
-router.get("/weights/:id", ValidateToken, getWeightById);
+router.get("/weights/:id",  getWeightById);
 
 /**
  * @swagger
@@ -47,7 +47,7 @@ router.get("/weights/:id", ValidateToken, getWeightById);
  *       201:
  *         description: Peso creado
  */
-router.post("/weights", ValidateToken, createWeight);
+router.post("/weights",createWeight);
 
 /**
  * @swagger
@@ -64,7 +64,7 @@ router.post("/weights", ValidateToken, createWeight);
  *       200:
  *         description: Peso actualizado
  */
-router.put("/weights/:id", ValidateToken, updateWeight);
+router.put("/weights/:id", updateWeight);
 
 /**
  * @swagger
@@ -81,6 +81,6 @@ router.put("/weights/:id", ValidateToken, updateWeight);
  *       200:
  *         description: Peso eliminado
  */
-router.delete("/weights/:id", ValidateToken, deleteWeight);
+router.delete("/weights/:id",  deleteWeight);
 
 module.exports = router;

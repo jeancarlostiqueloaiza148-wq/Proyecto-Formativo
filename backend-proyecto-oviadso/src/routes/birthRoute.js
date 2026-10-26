@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de nacimientos
  */
-router.get("/births",ValidateToken, getAllBirths);
+router.get("/births",  getAllBirths);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/births",ValidateToken, getAllBirths);
  *       200:
  *         description: Nacimiento encontrado
  */
-router.get("/births/:id", ValidateToken, getBirthById);
+router.get("/births/:id", getBirthById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/births/:id", ValidateToken, getBirthById);
  *       201:
  *         description: Nacimiento creado
  */
-router.post("/births", ValidateToken, createBirth);
+router.post("/births", createBirth);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/births", ValidateToken, createBirth);
  *       200:
  *         description: Nacimiento actualizado
  */
-router.put("/births/:id", ValidateToken, updateBirth);
+router.put("/births/:id", updateBirth);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/births/:id", ValidateToken, updateBirth);
  *       200:
  *         description: Nacimiento eliminado
  */
-router.delete("/births/:id", ValidateToken, deleteBirth);
+router.delete("/births/:id",  deleteBirth);
 
 module.exports = router;

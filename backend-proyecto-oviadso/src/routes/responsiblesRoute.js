@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de responsables
  */
-router.get("/responsibles", ValidateToken, getAllResponsibles);
+router.get("/responsibles",  getAllResponsibles);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/responsibles", ValidateToken, getAllResponsibles);
  *       200:
  *         description: Responsable encontrado
  */
-router.get("/responsibles/:id", ValidateToken, getResponsibleById);
+router.get("/responsibles/:id", getResponsibleById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/responsibles/:id", ValidateToken, getResponsibleById);
  *       201:
  *         description: Responsable creado
  */
-router.post("/responsibles", ValidateToken, createResponsible);
+router.post("/responsibles",  createResponsible);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/responsibles", ValidateToken, createResponsible);
  *       200:
  *         description: Responsable actualizado
  */
-router.put("/responsibles/:id", ValidateToken, updateResponsible);
+router.put("/responsibles/:id",  updateResponsible);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/responsibles/:id", ValidateToken, updateResponsible);
  *       200:
  *         description: Responsable eliminado
  */
-router.delete("/responsibles/:id", ValidateToken, deleteResponsible);
+router.delete("/responsibles/:id",  deleteResponsible);
 
 module.exports = router;

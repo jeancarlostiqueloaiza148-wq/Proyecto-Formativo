@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de registros de monta
  */
-router.get("/mountings", ValidateToken, getAllMountings);
+router.get("/mountings",  getAllMountings);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/mountings", ValidateToken, getAllMountings);
  *       200:
  *         description: Registro de monta encontrado
  */
-router.get("/mountings/:id", ValidateToken, getMountingById);
+router.get("/mountings/:id",  getMountingById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/mountings/:id", ValidateToken, getMountingById);
  *       201:
  *         description: Registro de monta creado
  */
-router.post("/mountings", ValidateToken, createMounting);
+router.post("/mountings", createMounting);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/mountings", ValidateToken, createMounting);
  *       200:
  *         description: Registro de monta actualizado
  */
-router.put("/mountings/:id", ValidateToken, updateMounting);
+router.put("/mountings/:id", updateMounting);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/mountings/:id", ValidateToken, updateMounting);
  *       200:
  *         description: Registro de monta eliminado
  */
-router.delete("/mountings/:id", ValidateToken, deleteMounting);
+router.delete("/mountings/:id", deleteMounting);
 
 module.exports = router;

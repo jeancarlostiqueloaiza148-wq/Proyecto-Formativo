@@ -1,3 +1,4 @@
+
 const {
   getAllDeliveries: getAllDeliveriesService,
   getDeliveryById: getDeliveryByIdService,
@@ -11,21 +12,27 @@ const { Response } = require("../functions/response");
 // Obtener todos los partos
 const getAllDeliveries = async (req, res) => {
   try {
-     const queryLimit = req.query.limit;
+    const queryLimit = req.query.limit;
     const queryOffset = req.query.offset;
 
-    //2. Convertir y validar los datos usando la funcion contructora Number
     const limit = queryLimit ? Number(queryLimit) : 10;
     const offset = queryOffset ? Number(queryOffset) : 0;
 
-    const body = req.body;
-    console.log("Body recibido:", body);
-
-    const deliveries = await getAllDeliveriesService(limit,offset);
+    const { deliveries, total } = await getAllDeliveriesService(
+      limit,
+      offset
+    );
 
     res.status(200).json({
       mensaje: "Obteniendo todos los partos",
       data: deliveries,
+      total: total,
+      pagination: {
+        limit: limit,
+        offset: offset,
+        total: total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
     });
   } catch (error) {
     console.error(error);
@@ -86,34 +93,34 @@ const createDelivery = async (req, res) => {
       !mother_id ||
       !number_of_offspring ||
       !type_of_birth ||
-      !complications ||
       !postJob ||
-      !active ||
-      !notes ||
       !status
     ) {
-      errors.push("Todos los campos son obligatorios");
+      errors.push("Todos los campos obligatorios deben estar completos");
     }
 
     if (date === "") errors.push("El campo date no puede estar vacío");
+
     if (mother_id === "")
       errors.push("El campo mother_id no puede estar vacío");
+
     if (number_of_offspring === "")
       errors.push("El campo number_of_offspring no puede estar vacío");
+
     if (type_of_birth === "")
       errors.push("El campo type_of_birth no puede estar vacío");
-    if (complications === "")
-      errors.push("El campo complications no puede estar vacío");
-    if (postJob === "") errors.push("El campo postJob no puede estar vacío");
-    if (active === "") errors.push("El campo active no puede estar vacío");
-    if (notes === "") errors.push("El campo notes no puede estar vacío");
-    if (status === "") errors.push("El campo status no puede estar vacío");
+
+    if (postJob === "")
+      errors.push("El campo postJob no puede estar vacío");
+
+    if (status === "")
+      errors.push("El campo status no puede estar vacío");
 
     if (errors.length > 0) {
       const response = new Response(
         false,
         "Error al crear el registro de parto",
-        errors,
+        errors
       );
 
       return res.status(400).json(response.json);
@@ -136,7 +143,7 @@ const createDelivery = async (req, res) => {
     const response = new Response(
       true,
       "Parto registrado exitosamente",
-      delivery,
+      delivery
     );
 
     return res.status(201).json(response.json);
@@ -146,7 +153,7 @@ const createDelivery = async (req, res) => {
     const response = new Response(
       false,
       "Error interno al registrar el parto",
-      error.message,
+      error.message
     );
 
     return res.status(500).json(response.json);
@@ -192,7 +199,7 @@ const updateDelivery = async (req, res) => {
     const response = new Response(
       false,
       "Error interno al actualizar el parto",
-      error.message,
+      error.message
     );
 
     return res.status(500).json(response.json);

@@ -11,6 +11,17 @@ const getAllResponsibles = async (limit, offset) => {
   }
 };
 
+// Contar todos los responsables
+const countResponsibles = async () => {
+  try {
+    const total = await responsible.count();
+    return total;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 // Obtener responsable por id
 const getResponsibleById = async (id) => {
   try {
@@ -64,6 +75,7 @@ const deleteResponsible = async (id) => {
 module.exports = {
   getAllResponsibles,
   getResponsibleById,
+  countResponsibles,
   createResponsibleService,
   updateResponsible,
   deleteResponsible,

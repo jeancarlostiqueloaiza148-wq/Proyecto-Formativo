@@ -1,19 +1,23 @@
+
 const delivery = require("../models/deliveryModel");
-
-
 
 // Obtener todos los partos
 const getAllDeliveries = async (limit, offset) => {
   try {
-    const deliveries = await delivery.findAll({limit:limit,offset:offset});
-    return deliveries;
+    const { count, rows } = await delivery.findAndCountAll({
+      limit: limit,
+      offset: offset,
+    });
+
+    return {
+      deliveries: rows,
+      total: count,
+    };
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
-
-
 
 // Obtener parto por id
 const getDeliveryById = async (id) => {
@@ -26,8 +30,6 @@ const getDeliveryById = async (id) => {
   }
 };
 
-
-
 // Crear parto
 const createDeliveryService = async (data) => {
   try {
@@ -38,8 +40,6 @@ const createDeliveryService = async (data) => {
     throw error;
   }
 };
-
-
 
 // Actualizar parto
 const updateDelivery = async (id, data) => {
@@ -52,25 +52,20 @@ const updateDelivery = async (id, data) => {
   }
 };
 
-
-
 // Inactivar parto
 const deleteDelivery = async (id) => {
-
-    try {
-        return await delivery.update(
-            { active: 0 },
-            {
-                where: { id }
-            }
-        );
-    } catch (error) {
-        console.log(error);
-        throw error;
-    }
+  try {
+    return await delivery.update(
+      { active: 0 },
+      {
+        where: { id },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
-
-
 
 module.exports = {
   getAllDeliveries,

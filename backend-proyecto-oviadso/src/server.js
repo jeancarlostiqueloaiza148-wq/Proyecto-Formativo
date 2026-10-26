@@ -109,79 +109,6 @@ const db = require("./config/conectionDB");
 // Importa el servicio de envío de correos electrónicos
 const { sendEmail } = require("./services/emailService");
 
-const htmlRegistro = `
-<!DOCTYPE html>
-<html>
-
-<head>
-<meta charset="UTF-8">
-<title>Registro exitoso</title>
-</head>
-
-<body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,Helvetica,sans-serif;">
-
-<div style="max-width:650px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 0 15px rgba(0,0,0,.15);">
-
-<div style="background:#f97316;padding:30px;text-align:center;">
-<h1 style="margin:0;color:white;">
-Registro Exitoso
-</h1>
-</div>
-
-<div style="padding:35px;">
-
-<h2 style="color:#f97316;">
-Hola Jean Carlos
-</h2>
-
-<p style="color:#444;">
-Tu registro en la plataforma <strong>OVIADSO</strong> se realizó correctamente.
-</p>
-
-<p style="color:#444;">
-Ahora puedes acceder al sistema utilizando tus credenciales y disfrutar de todas las funcionalidades disponibles.
-</p>
-
-<div style="
-background:#fff7ed;
-border-left:5px solid #f97316;
-padding:15px;
-margin-top:20px;
-">
-Tu cuenta ha sido creada exitosamente.
-</div>
-
-<p style="margin-top:25px;">
-<strong>Fecha:</strong> ${new Date().toLocaleDateString()}
-</p>
-
-</div>
-
-<div style="background:#f97316;color:white;text-align:center;padding:18px;">
-Gracias por confiar en OVIADSO.
-</div>
-
-</div>
-
-</body>
-</html>
-`;
-
-const testEmail = async () => {
-  try {
-   await sendEmail(
-    "jeancarlostiqueloaiza148@gmail.com",
-    "Registro exitoso",
-    "Registro exitoso",
-     htmlRegistro
-   );
-
-    console.log(" Correo enviado correctamente");
-  } catch (error) {
-    console.error(" Error al enviar el correo");
-    console.error(error);
-  }
-};
 
 // Crea la aplicación Express
 const app = express();
@@ -269,7 +196,7 @@ const init = async () => {
     // Muestra errores de conexión o arranque
     console.error(error);
   }
-  await testEmail();
+  
 };
 
 // Ejecuta la función de inicio

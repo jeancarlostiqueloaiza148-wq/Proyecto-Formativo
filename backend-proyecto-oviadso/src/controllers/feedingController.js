@@ -11,26 +11,26 @@ const { Response } = require("../functions/response");
 // Obtener todas las alimentaciones
 const getAllFeedings = async (req, res) => {
   try {
-     const queryLimit = req.query.limit;
+    const queryLimit = req.query.limit;
     const queryOffset = req.query.offset;
 
-    //2. Convertir y validar los datos usando la funcion contructora Number
     const limit = queryLimit ? Number(queryLimit) : 10;
     const offset = queryOffset ? Number(queryOffset) : 0;
 
     const body = req.body;
     console.log("Body recibido:", body);
 
-    const feedings = await getAllFeedingsService(limit,offset);
+    const resultado = await getAllFeedingsService(limit, offset);
 
-    res.status(200).json({
+    return res.status(200).json({
       mensaje: "Obteniendo todas las alimentaciones",
-      data: feedings,
+      data: resultado.rows,
+      total: resultado.count,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error al obtener las alimentaciones:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       mensaje: "Error al obtener las alimentaciones",
       error: error.message,
     });

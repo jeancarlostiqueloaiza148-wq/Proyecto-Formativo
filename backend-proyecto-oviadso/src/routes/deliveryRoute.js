@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de partos
  */
-router.get("/deliveries", ValidateToken, getAllDeliveries);
+router.get("/deliveries",  getAllDeliveries);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/deliveries", ValidateToken, getAllDeliveries);
  *       200:
  *         description: Parto encontrado
  */
-router.get("/deliveries/:id", ValidateToken, getDeliveryById);
+router.get("/deliveries/:id", getDeliveryById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/deliveries/:id", ValidateToken, getDeliveryById);
  *       201:
  *         description: Parto creado
  */
-router.post("/deliveries", ValidateToken, createDelivery);
+router.post("/deliveries",  createDelivery);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/deliveries", ValidateToken, createDelivery);
  *       200:
  *         description: Parto actualizado
  */
-router.put("/deliveries/:id", ValidateToken, updateDelivery);
+router.put("/deliveries/:id", updateDelivery);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/deliveries/:id", ValidateToken, updateDelivery);
  *       200:
  *         description: Parto inactivado
  */
-router.delete("/deliveries/:id", ValidateToken, deleteDelivery);
+router.delete("/deliveries/:id",  deleteDelivery);
 
 module.exports = router;

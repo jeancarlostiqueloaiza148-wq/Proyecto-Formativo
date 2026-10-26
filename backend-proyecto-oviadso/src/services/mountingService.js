@@ -3,8 +3,15 @@ const mounting = require("../models/mountingModel");
 // Obtener todas las montas
 const getAllMountings = async (limit, offset) => {
     try {
-        const mountings = await mounting.findAll({limit:limit,offset:offset});
-        return mountings;
+        const { count, rows } = await mounting.findAndCountAll({
+            limit: limit,
+            offset: offset
+        });
+
+        return {
+            count: count,
+            rows: rows
+        };
     } catch (error) {
         console.log(error);
         throw error;

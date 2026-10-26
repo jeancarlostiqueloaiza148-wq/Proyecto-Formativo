@@ -1,58 +1,76 @@
-// USUARIOS
+import { act } from "react";
 
-app-route[1, "Listar Usuarios", "/Dashboard/user", 1]
-app-route[2, "Crear Usuario", "/Dashboard/user/form", 1]
-
-
-// NACIMIENTOS
-
-app-route[3, "Listar Nacimientos", "/Dashboard/birth", 1]
-app-route[4, "Crear Nacimiento", "/Dashboard/birth/form", 1]
-
-
-// MORTALIDADES
-
-app-route[5, "Listar Mortalidades", "/Dashboard/mortality", 1]
-app-route[6, "Crear Mortalidad", "/Dashboard/mortality/form", 1]
+export const DEFAULT_ROLL = [
+    { slug: "superadmin", name_roll: "Super Administrador" },
+    { slug: "admin", name_roll: "Administrador" },
+    { slug: "instructor", name_roll: "Instructor "},
+    { slug: "Gestor", name_roll: "Gestor" },
+    { slug: "pasante", name_roll: "Pasante "},
+];
 
 
-// ALIMENTACIONES
+export const DEFAULT_APP_ROUTES = [
+  {
+    name_route: "Usuarios",
+    route: "/dashboard/user",
+    active: true,
+    icono: "fa-solid fa-user",
+  },
+  {
+    name_route: "Responsables",
+    route: "/dashboard/responsibles",
+    active: true,
+    icono: "fa-solid fa-users",
+  },
+  {
+    name_route: "Ovinos",
+    route: "/dashboard/ovine",
+    active: true,
+    icono: "fa-solid fa-sheep",
+  },
+  {
+    name_route: "Peso",
+    route: "/dashboard/weight",
+    active: true,
+    icono: "fa-solid fa-scale-balanced",
+  },
+  {
+    name_route: "Nacimientos",
+    route: "/dashboard/birth",
+    active: true,
+    icono: "fa-solid fa-paw",
+  },
+  {
+    name_route: "Mortalidad",
+    route: "/dashboard/mortality",
+    active: true,
+    icono: "fa-solid fa-skull",
+  },
+  {
+    name_route: "Alimentación",
+    route: "/dashboard/feeding",
+    active: true,
+    icono: "fa-solid fa-wheat-awn",
+  },
+  {
+    name_route: "Sanidad",
+    route: "/dashboard/health",
+    active: true,
+    icono: "fa-solid fa-heart-pulse",
+  },
+  {
+    name_route: "Montas",
+    route: "/dashboard/mounting",
+    active: true,
+    icono: "fa-solid fa-heart",
+  },
+  {
+    name_route: "Partos",
+    route: "/dashboard/delivery",
+    active: true,
+    icono: "fa-solid fa-calendar-heart",
+  },
+];
 
-app-route[7, "Listar Alimentaciones", "/Dashboard/feeding", 1]
-app-route[8, "Crear Alimentacion", "/Dashboard/feeding/form", 1]
 
-
-// SANIDADES
-
-app-route[9, "Listar Sanidades", "/Dashboard/health", 1]
-app-route[10, "Crear Sanidad", "/Dashboard/health/form", 1]
-
-
-// OVINOS
-
-app-route[11, "Listar Ovinos", "/Dashboard/ovine", 1]
-app-route[12, "Crear Ovino", "/Dashboard/ovine/form", 1]
-
-
-// MONTAS
-
-app-route[13, "Listar Montas", "/Dashboard/mounting", 1]
-app-route["14", "Crear Monta", /Dashboard/mounting/form, 1]
-
-
-// PARTOS
-
-app-route[15, "Listar Partos", "/Dashboard/delivery", 1]
-app-route[16, "Crear Parto", "/Dashboard/delivery/form", 1]
-
-
-// PESOS
-
-app-route[17, "Listar Pesos", "/Dashboard/weight", 1]
-app-route[18, "Crear Peso", "/Dashboard/weight/form", 1]
-
-
-// RESPONSABLES
-
-app-route[19, "Listar Responsables", "/Dashboard/responsibles", 1]
-app-route[20, "Crear Responsable", "/Dashboard/responsibles/form", 1]
+export const DEFAULT_ROLL_APP_ROUTES = [];

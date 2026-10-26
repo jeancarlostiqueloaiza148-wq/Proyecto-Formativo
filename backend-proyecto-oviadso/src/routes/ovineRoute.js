@@ -20,7 +20,7 @@ const {
  *       200:
  *         description: Lista de ovinos
  */
-router.get("/ovines", ValidateToken, getAllOvines);
+router.get("/ovines", getAllOvines);
 
 /**
  * @swagger
@@ -37,7 +37,7 @@ router.get("/ovines", ValidateToken, getAllOvines);
  *       200:
  *         description: Ovino encontrado
  */
-router.get("/ovines/:id", ValidateToken, getOvineById);
+router.get("/ovines/:id",  getOvineById);
 
 /**
  * @swagger
@@ -48,7 +48,7 @@ router.get("/ovines/:id", ValidateToken, getOvineById);
  *       201:
  *         description: Ovino creado
  */
-router.post("/ovines",ValidateToken, createOvine);
+router.post("/ovines",  createOvine);
 
 /**
  * @swagger
@@ -65,7 +65,7 @@ router.post("/ovines",ValidateToken, createOvine);
  *       200:
  *         description: Ovino actualizado
  */
-router.put("/ovines/:id", ValidateToken, updateOvine);
+router.put("/ovines/:id", updateOvine);
 
 /**
  * @swagger
@@ -82,6 +82,6 @@ router.put("/ovines/:id", ValidateToken, updateOvine);
  *       200:
  *         description: Ovino eliminado
  */
-router.delete("/ovines/:id", ValidateToken, deleteOvine);
+router.delete("/ovines/:id",  deleteOvine);
 
 module.exports = router;

@@ -1,9 +1,13 @@
 const weight = require("../models/weightModel");
 
 // Obtener todos los pesos
+// Obtener todos los pesos
 const getAllWeights = async (limit, offset) => {
     try {
-        const weights = await weight.findAll({limit:limit,offset:offset});
+        const weights = await weight.findAndCountAll({
+            limit: limit,
+            offset: offset
+        });
         return weights;
     } catch (error) {
         console.log(error);
