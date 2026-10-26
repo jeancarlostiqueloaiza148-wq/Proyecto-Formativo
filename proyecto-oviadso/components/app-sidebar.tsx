@@ -1,12 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarHeader,
@@ -18,214 +17,132 @@ import {
 import {
   Shield,
   Skull,
-  Wheat,
+  Sprout,
   HeartPulse,
   PawPrint,
   HeartHandshake,
   CalendarHeart,
   User,
-  ChevronDown,
-  ChevronRight,
   Scale,
-  LogOut,
+  ContactRound,
+  
 } from "lucide-react"
 
-const items = [
+const navGroups = [
   {
-    title: "Usuarios",
-    icon: User,
-    children: [
-      { title: "Listar Usuarios", url: "/Dashboard/user" },
-      { title: "Crear Usuario", url: "/Dashboard/user/form" },
+    title: "Gestión de Ovinos",
+    items: [
+      { title: "Ovinos", icon: Shield, url: "/dashboard/ovine" },
+      { title: "Peso", icon: Scale, url: "/dashboard/weight" },
+      { title: "Nacimientos", icon: PawPrint, url: "/dashboard/birth" },
+      { title: "Mortalidad", icon: Skull, url: "/dashboard/mortality" },
     ],
   },
   {
-    title: "Nacimientos",
-    icon: PawPrint,
-    children: [
-      { title: "Listar Nacimientos", url: "/Dashboard/birth" },
-      { title: "Crear Nacimiento", url: "/Dashboard/birth/form" },
-    ],
-  },
-  {
-    title: "Mortalidad",
-    icon: Skull,
-    children: [
-      { title: "Listar Mortalidades", url: "/Dashboard/mortality" },
-      { title: "Crear Mortalidad", url: "/Dashboard/mortality/form" },
-    ],
-  },
-  {
-    title: "Alimentación",
-    icon: Wheat,
-    children: [
-      { title: "Listar Alimentaciones", url: "/Dashboard/feeding" },
-      { title: "Crear Alimentación", url: "/Dashboard/feeding/form" },
+    title: "Gestión de Alimentación",
+    items: [
+      { title: "Alimentación", icon: Sprout, url: "/dashboard/feeding" },
     ],
   },
   {
     title: "Sanidad",
-    icon: HeartPulse,
-    children: [
-      { title: "Listar Sanidades", url: "/Dashboard/health" },
-      { title: "Crear Sanidad", url: "/Dashboard/health/form" },
+    items: [
+      { title: "Sanidad", icon: HeartPulse, url: "/dashboard/health" },
     ],
   },
   {
-    title: "Ovinos",
-    icon: Shield,
-    children: [
-      { title: "Listar Ovinos", url: "/Dashboard/ovine" },
-      { title: "Crear Ovino", url: "/Dashboard/ovine/form" },
+    title: "Reproducción",
+    items: [
+      { title: "Montas", icon: HeartHandshake, url: "/dashboard/mounting" },
+      { title: "Partos", icon: CalendarHeart, url: "/dashboard/delivery" },
     ],
   },
   {
-    title: "Montas",
-    icon: HeartHandshake,
-    children: [
-      { title: "Listar Montas", url: "/Dashboard/mounting" },
-      { title: "Crear Monta", url: "/Dashboard/mounting/form" },
-    ],
-  },
-  {
-    title: "Partos",
-    icon: CalendarHeart,
-    children: [
-      { title: "Listar Partos", url: "/Dashboard/delivery" },
-      { title: "Crear Parto", url: "/Dashboard/delivery/form" },
-    ],
-  },
-  {
-    title: "Peso",
-    icon: Scale,
-    children: [
-      { title: "Listar Pesos", url: "/Dashboard/weight" },
-      { title: "Crear Peso", url: "/Dashboard/weight/form" },
-    ],
-  },
-  {
-    title: "Responsables",
-    icon: User,
-    children: [
-      { title: "Listar Responsables", url: "/Dashboard/responsibles" },
-      { title: "Crear Responsable", url: "/Dashboard/responsibles/form" },
+    title: "Administración",
+    items: [
+      { title: "Usuarios", icon: User, url: "/dashboard/user" },
+      { title: "Responsables", icon: ContactRound, url: "/dashboard/responsibles" },
     ],
   },
 ]
 
-export function AppSidebar() {
-  const [openMenu, setOpenMenu] = useState<string | null>(null)
+type NavItemType = (typeof navGroups)[0]["items"][0]
 
+function NavItem({ item }: { item: NavItemType }) {
   return (
-    <Sidebar className="bg-white border-r shadow-lg">
+    <SidebarMenuItem>
+      <SidebarMenuButton 
+        asChild 
+        // Al colapsar, le damos un padding cero y forzamos que el contenido se centre
+        className="group relative my-0.5 w-full rounded-xl px-3 py-2.5 transition-all duration-200 text-gray-600 hover:bg-gray-100 hover:text-black group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center"
+      >
+        <Link 
+          href={item.url} 
+          className="flex items-center gap-3 w-full group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0"
+        >
+          <item.icon className="h-5 w-5 shrink-0 text-orange-500" />
+          {/* El texto se oculta al colapsar */}
+          <span className="flex-1 text-sm font-medium text-gray-700 group-hover:text-black group-data-[collapsible=icon]:hidden">
+            {item.title}
+          </span>
+        </Link>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  )
+}
 
-      <SidebarHeader className="bg-orange-500 text-white py-5">
-        <h2 className="text-center text-1xl font-bold tracking-wider">
-          Gestion De Ovinos
-        </h2>
+export function AppSidebar() {
+  return (
+    <Sidebar
+      collapsible="icon"
+      className="bg-white border-r shadow-lg"
+    >
+      {/* 
+        Cambios clave en el Header:
+        1. Se agregó 'group-data-[collapsible=icon]:!p-0' para quitar el padding interno que lo empuja a la izquierda.
+        2. Se agregó 'group-data-[collapsible=icon]:justify-center' para centrar la imagen.
+      */}
+      <SidebarHeader className="bg-gradient-to-r from-gray-300 to-gray-300 text-orange-500 h-20 flex items-center justify-center px-4 overflow-hidden group-data-[collapsible=icon]:!p-0 group-data-[collapsible=icon]:justify-center">
+        <div className="flex flex-row items-center justify-center gap-3 w-full">
+          
+          {/* La imagen siempre se muestra */}
+          <Image
+            src="/logo.png"
+            alt="Logo OVIADSO"
+            width={50}
+            height={40}
+            className="object-contain shrink-0"
+          />
+
+          {/* Solo el texto se oculta al colapsar */}
+          <h2 className="text-2xl font-extrabold text-black tracking-wide whitespace-nowrap group-data-[collapsible=icon]:hidden">
+            OVIADSO
+          </h2>
+        </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      {/* Al colapsar, quitamos el padding horizontal (px-0) */}
+      <SidebarContent className="px-3 py-5 group-data-[collapsible=icon]:px-0">
         <SidebarGroup>
           <SidebarGroupContent>
-
-            <SidebarMenu>
-
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-
-                  <SidebarMenuButton
-                    onClick={() =>
-                      setOpenMenu(
-                        openMenu === item.title ? null : item.title
-                      )
-                    }
-                    className={`my-1 rounded-lg transition-all duration-200 hover:bg-orange-100 hover:text-orange-600 ${
-                      openMenu === item.title
-                        ? "bg-orange-100 text-orange-600"
-                        : ""
-                    }`}
-                  >
-                    <item.icon className="h-5 w-5" />
-
-                    <span className="flex-1 font-medium">
-                      {item.title}
-                    </span>
-
-                    {openMenu === item.title ? (
-                      <ChevronDown size={16} />
-                    ) : (
-                      <ChevronRight size={16} />
-                    )}
-
-                  </SidebarMenuButton>
-
-                  {openMenu === item.title && (
-
-                    <div className="ml-10 mt-2 flex flex-col gap-1">
-
-                      {item.children.map((child) => (
-
-                        <Link
-                          key={child.title}
-                          href={child.url}
-                          className="rounded-md px-2 py-1 text-sm text-gray-600 transition hover:bg-orange-50 hover:text-orange-600"
-                        >
-                          {child.title}
-                        </Link>
-
-                      ))}
-
-                    </div>
-
-                  )}
-
-                </SidebarMenuItem>
+            <SidebarMenu className="space-y-5">
+              
+              {navGroups.map((group) => (
+                <div key={group.title}>
+                  {/* Los títulos de los grupos se ocultan */}
+                  <div className="px-3 pb-1.5 text-[10px] font-semibold text-gray-400/80 tracking-[0.2em] uppercase group-data-[collapsible=icon]:hidden">
+                    {group.title}
+                  </div>
+                  {group.items.map((item) => (
+                    <NavItem key={item.title} item={item} />
+                  ))}
+                </div>
               ))}
 
             </SidebarMenu>
-
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-    <SidebarFooter className="border-t bg-white p-0">
-  <div className="flex items-center justify-between border border-orange-100 bg-white px-2 py-3 shadow-sm">
-
-    {/* Información del usuario */}
-    <div className="flex items-center gap-2">
-
-      {/* Avatar */}
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-lg font-bold text-white shadow">
-        J
-      </div>
-
-      {/* Datos */}
-      <div>
-        <p className="text-base font-bold leading-5 text-gray-800">
-          Jean Carlos
-        </p>
-
-        <p className="text-xs text-orange-500">
-          jeancarlos@oviadso.com
-        </p>
-      </div>
-
-    </div>
-
-    {/* Botón salir */}
-    <button
-      onClick={() => {
-        console.log("Cerrar sesión")
-      }}
-      className="rounded-full p-2 text-orange-500 transition-all duration-300 hover:bg-orange-100 hover:text-orange-600"
-    >
-      <LogOut size={18} />
-    </button>
-
-  </div>
-</SidebarFooter>
-
     </Sidebar>
   )
 }

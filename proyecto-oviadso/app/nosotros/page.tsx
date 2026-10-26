@@ -27,6 +27,7 @@ export default function Nosotros() {
         {/* Equipo */}
         <section className="max-w-7xl mx-auto px-6">
           <div className="flex justify-center gap-8 flex-wrap mb-20">
+
             {/* Natalia */}
             <div className="bg-white p-6 rounded-3xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 text-center w-64">
               <img
@@ -131,6 +132,7 @@ export default function Nosotros() {
             </h2>
 
             <div className="flex justify-center gap-12 flex-wrap">
+
               {/* Myriam Yaneth */}
               <div className="bg-white p-6 rounded-3xl shadow-lg text-center w-72 hover:shadow-2xl transition">
                 <img
@@ -247,6 +249,41 @@ export default function Nosotros() {
                 alt="Unidad de ovinos"
                 className="rounded-2xl shadow-lg hover:scale-105 transition h-40 w-full object-cover"
               />
+            </div>
+          </section>
+
+          {/* Localización */}
+          <section className="max-w-5xl mx-auto mb-20">
+            <h2 className="text-4xl font-bold text-center text-orange-600 mb-8">
+              Localización de la Unidad Ovina
+            </h2>
+
+            <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
+              <div className="p-8 text-center">
+                <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                  Centro Agropecuario La Granja – SENA
+                </h3>
+
+                <p className="text-gray-600 text-lg">
+                  Espinal, Tolima
+                </p>
+
+                <p className="text-gray-500 mt-2">
+                  Vereda Dindalito · Zona Pecuaria
+                </p>
+              </div>
+
+              <div className="w-full h-96">
+                <iframe
+                  src="https://www.google.com/maps?q=Centro+Agropecuario+La+Granja+SENA+Espinal+Tolima&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
             </div>
           </section>
 

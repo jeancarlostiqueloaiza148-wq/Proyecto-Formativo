@@ -1,95 +1,241 @@
-export default function TableOvine() {
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface TableOvineProps {
+  actions?: React.ReactNode;
+}
+
+function TableOvine({ actions }: TableOvineProps) {
+  const [ovines, setOvines] = useState<any[]>([]);
+
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalOvines, setTotalOvines] = useState(0);
+
+  // Buscador
+  const [search, setSearch] = useState("");
+
+  // Recargar tabla
+  const [refresh, setRefresh] = useState(0);
+
+  useEffect(() => {
+    const fetchOvines = async () => {
+      try {
+        const limit = 10;
+        const offset = (page - 1) * limit;
+
+        const response = await fetch(
+          `http://localhost:3001/api/ovine/ovines?limit=${limit}&offset=${offset}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error(data);
+          return;
+        }
+
+        const listaOvinos = Array.isArray(data.data)
+          ? data.data
+          : Array.isArray(data.ovinos)
+            ? data.ovinos
+            : Array.isArray(data)
+              ? data
+              : [];
+
+        setOvines(listaOvinos);
+
+        // El backend debe devolver el total real de ovinos.
+        const total = data.total ?? data.totalOvines ?? data.count;
+
+        if (typeof total === "number") {
+          setTotalOvines(total);
+
+          const paginas = Math.max(1, Math.ceil(total / limit));
+          setTotalPages(paginas);
+
+          // Evitar permanecer en una página que ya no existe.
+          if (page > paginas) {
+            setPage(paginas);
+          }
+        } else {
+          console.error(
+            "La API debe devolver el total de ovinos registrados."
+          );
+        }
+      } catch (error) {
+        console.error("Error al obtener los ovinos:", error);
+      }
+    };
+
+    fetchOvines();
+  }, [page, refresh]);
+
+  // Filtrar ovinos
+  const filteredOvines = ovines.filter((ovine: any) => {
+    if (!search.trim()) {
+      return true;
+    }
+
+    const texto = search.toLowerCase().trim();
+
+    return `${ovine.name} ${ovine.tag} ${ovine.breed} ${ovine.sex} ${ovine.birth_date} ${ovine.weight} ${ovine.status}`
+      .toLowerCase()
+      .includes(texto);
+  });
+
+  // Página anterior
+  const previousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  // Página siguiente
+  const nextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-
-      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-xl p-6 border-t-4 border-orange-500">
-
-
-        <h1 className="text-3xl font-bold text-center mb-6 text-orange-500">
-          Tabla de Ovinos
+    <div className="min-h-screen pt-12 px-6 pb-6">
+      {/* ENCABEZADO */}
+      <div className="max-w-7xl mx-auto mb-6">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4 text-left">
+          Ovinos
         </h1>
 
+        <div className="relative flex items-center justify-between">
+          {/* BUSCADOR */}
+          <input
+            type="text"
+            placeholder="Buscar ovino..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-64 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 outline-none focus:border-gray-400 focus:ring-1 focus:ring-gray-400"
+          />
 
-        <div className="overflow-x-auto">
-
-          <table className="w-full rounded-lg overflow-hidden shadow-md">
-
-
-            <thead className="bg-orange-500 text-white">
-
-              <tr>
-                <th className="p-3">ID</th>
-                <th className="p-3">Etiqueta</th>
-                <th className="p-3">Raza</th>
-                <th className="p-3">Sexo</th>
-                <th className="p-3">Fecha Nacimiento</th>
-                <th className="p-3">Peso</th>
-                <th className="p-3">Estado</th>
-              </tr>
-
-            </thead>
-
-
-
-            <tbody className="text-center text-gray-700">
-
-
-              <tr className="border-b hover:bg-orange-50 transition">
-
-                <td className="p-3">1</td>
-                <td className="p-3">OV-001</td>
-                <td className="p-3">Merino</td>
-                <td className="p-3">Macho</td>
-                <td className="p-3">10/01/2026</td>
-                <td className="p-3 font-semibold">45 kg</td>
-                <td className="p-3 text-green-600 font-bold">
-                  Activo
-                </td>
-
-              </tr>
-
-
-
-              <tr className="border-b hover:bg-orange-50 transition bg-gray-50">
-
-                <td className="p-3">2</td>
-                <td className="p-3">OV-002</td>
-                <td className="p-3">Blackface</td>
-                <td className="p-3">Hembra</td>
-                <td className="p-3">15/02/2026</td>
-                <td className="p-3 font-semibold">40 kg</td>
-                <td className="p-3 text-green-600 font-bold">
-                  Activo
-                </td>
-
-              </tr>
-
-
-
-              <tr className="hover:bg-orange-50 transition">
-
-                <td className="p-3">3</td>
-                <td className="p-3">OV-003</td>
-                <td className="p-3">Dorper</td>
-                <td className="p-3">Macho</td>
-                <td className="p-3">20/03/2026</td>
-                <td className="p-3 font-semibold">50 kg</td>
-                <td className="p-3 text-red-600 font-bold">
-                  Inactivo
-                </td>
-
-              </tr>
-
-
-            </tbody>
-
-
-          </table>
-
+          {/* BOTÓN / ACCIÓN */}
+          {actions}
         </div>
-
       </div>
 
+      {/* TABLA */}
+      <div className="max-w-7xl mx-auto overflow-x-auto rounded-lg border border-gray-200 shadow-sm bg-white">
+        <table className="w-full border-collapse text-left text-sm text-gray-800">
+          <thead className="bg-gray-200 text-xs font-medium text-gray-500">
+            <tr>
+              <th className="px-6 py-4 font-medium">Nombre</th>
+              <th className="px-6 py-4 font-medium">Identificación</th>
+              <th className="px-6 py-4 font-medium">Raza</th>
+              <th className="px-6 py-4 font-medium">Sexo</th>
+              <th className="px-6 py-4 font-medium">
+                Fecha de Nacimiento
+              </th>
+              <th className="px-6 py-4 font-medium">Peso</th>
+              <th className="px-6 py-4 font-medium">
+                Estado de Salud
+              </th>
+              <th className="px-6 py-4 font-medium">Estado</th>
+            </tr>
+          </thead>
+
+          <tbody className="divide-y divide-gray-100">
+            {filteredOvines.map((ovine: any) => (
+              <tr
+                key={ovine.id}
+                className="transition-colors hover:bg-gray-50"
+              >
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.name}
+                </td>
+
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.tag}
+                </td>
+
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.breed}
+                </td>
+
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.sex}
+                </td>
+
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.birth_date}
+                </td>
+
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.weight} kg
+                </td>
+
+                <td className="px-6 py-4 text-gray-600">
+                  {ovine.status}
+                </td>
+
+                <td className="px-6 py-4">
+                  <span
+                    className={`rounded-full px-2.5 py-1 text-xs font-medium ${
+                      ovine.active
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {ovine.active ? "Activo" : "Inactivo"}
+                  </span>
+                </td>
+              </tr>
+            ))}
+
+            {filteredOvines.length === 0 && (
+              <tr>
+                <td
+                  colSpan={8}
+                  className="px-6 py-8 text-center text-gray-500"
+                >
+                  No hay ovinos registrados.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* PAGINADOR */}
+      <div className="max-w-7xl mx-auto mt-4 flex items-center justify-between px-2 text-sm text-gray-500">
+        <span>Total de ovinos: {totalOvines}</span>
+
+        <div className="flex items-center gap-6">
+          <button
+            type="button"
+            onClick={previousPage}
+            disabled={page === 1}
+            className="flex items-center gap-1 transition-colors hover:text-gray-800 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <span>←</span>
+            Anterior
+          </button>
+
+          <span className="text-gray-400">
+            Página {page} de {totalPages}
+          </span>
+
+          <button
+            type="button"
+            onClick={nextPage}
+            disabled={page >= totalPages}
+            className="flex items-center gap-1 transition-colors hover:text-gray-800 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Siguiente
+            <span>→</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
+
+export default TableOvine;
